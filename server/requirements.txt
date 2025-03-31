@@ -7,4 +7,4 @@ eth-account===0.4.0
 ethereum===2.3.2
 mysqlclient
 python-dotenv
-pyrlp
+rlp

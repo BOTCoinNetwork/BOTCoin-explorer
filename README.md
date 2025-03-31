@@ -35,3 +35,24 @@ You can visit the dashboard:
 ```
 localhost:3000
 ```
+
+base on python 3.6
+
+use venv launch backend
+
+```
+cd server/
+python -m venv .venv/
+```
+
+then install requirements
+
+```
+.venv/bin/pip3 install -r requirements.txt
+```
+
+if base on node 13 latest, please use
+
+```
+export NODE_OPTIONS=--openssl-legacy-provider
+```
