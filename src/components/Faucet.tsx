@@ -89,7 +89,7 @@ const Faucet: React.FC<{}> = () => {
 							type="image"
 							onChange={onChange}
 							theme={'light'}
-							sitekey="6LdoMh4UAAAAAMSK7FUAUtfmkkLuLfyjC-5mxuNE"
+							sitekey="6LfIIgYrAAAAAK5xB5UJ1VSno9_BPSrWFx97trdA"
 						/>
 					</Form.Group>
 					<Form.Group>

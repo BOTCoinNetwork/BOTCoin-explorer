@@ -65,7 +65,7 @@
 		"tx": "ts-node scripts/transfer",
 		"lint": "tslint -p . -c ./tslint.json",
 		"root80": "PORT=80 react-scripts start",
-		"build": "react-scripts build",
+		"build": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"clean": "rm -rf node_modules build server/src/db.sqlite3",
