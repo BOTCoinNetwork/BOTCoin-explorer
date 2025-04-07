@@ -16,7 +16,6 @@ import Faucet from '../components/Faucet';
 import { selectNetwork } from '../selectors';
 import { capitalize } from '../utils';
 
-import BG from '../assets/bg.png';
 import BOTCoin_ICON from '../assets/icon.png';
 
 const SIcon = styled(Image)`
@@ -25,7 +24,7 @@ const SIcon = styled(Image)`
 
 const SAlert = styled(Alert)`
 	padding: 50px 0px !important;
-	background: url(${BG}) !important;
+	background:rgb(47, 8, 73) !important;
 	background-size: cover !important;
 	background-position-y: -10px !important;
 	color: #eee !important;
@@ -99,12 +98,6 @@ const Jumbotron: React.FC<{}> = () => {
 						</Col>
 						<Col xs={12} md={5}>
 							<Faucet />
-						</Col>
-						<Col md={2} className="d-none d-sm-block text-center">
-							<Image
-								src="https://monet.network/app/images/products/tenom.svg"
-								width={150}
-							/>
 						</Col>
 					</Row>
 				</Container>

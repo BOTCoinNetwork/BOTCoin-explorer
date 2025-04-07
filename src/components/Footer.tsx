@@ -14,11 +14,9 @@ import Logo from '../assets/icon.png';
 import Grid, { Section } from '../ui';
 
 const SFooter = styled.div`
-	background: linear-gradient(93deg, #1c3f94, #152c60);
+	background: rgb(47, 8, 73);
 	background-size: cover;
-	/* background: rgba(31, 66, 146, 1); */
 	color: #fff;
-	/* border-top: 1px solid #333; */
 	margin-top: 100px;
 	box-shadow: 0 -1px 20px rgba(0, 0, 0, 0.2) !important;
 

@@ -26,10 +26,10 @@ const SIcon = styled(Image)`
 
 const SNavbar = styled(Navbar)`
 	transition: background 0.3s cubic-bezier(1, 1, 1, 1);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+	border-bottom: 0px solid rgba(0, 0, 0, 0.1) !important;
 
 	&.bg-dark {
-		background: linear-gradient(93deg, #1c3f94, #152c60) !important;
+		background: rgb(69, 17, 112) !important;
 		color: white !important;
 		/* border-bottom: 1px solid #f4f4f4; */
 		/* margin-bottom: 30px !important; */
