@@ -10,7 +10,7 @@ import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 
 import Background from '../assets/bg.svg';
-import Logo from '../assets/monet.svg';
+import Logo from '../assets/icon.png';
 import Grid, { Section } from '../ui';
 
 const SFooter = styled.div`
@@ -57,22 +57,11 @@ const Footer: React.FC<{}> = props => {
 						</a>
 						<br />
 						<br />
-						<p>
-							Camille is a public test version of the{' '}
-							<a href="https://monet.network/faq.html">
-								MONET Hub
-							</a>
-							, which is an important part of the{' '}
-							<a href="https://monet.network/about.html">
-								MONET project
-							</a>
-							. This is a dashboard to monitor the status of the
-							test network.
-						</p>
+						
 						<p className="rights">
 							{/* <span>© </span> */}
 							{/* <b className="copyright-year"></b>{' '} */}
-							<b>Monet Explorer</b>
+							<b>BOTCoin Explorer</b>
 							{/* <span>. </span> */}
 							{/* <b>All Rights Reserved.</b> */}
 						</p>
@@ -82,20 +71,15 @@ const Footer: React.FC<{}> = props => {
 						<h5>Links</h5>
 						<dl className="contact-list">
 							<dd>
-								<a href={'https://monet.network'}>Monet</a>
+								<a href={'https://botcoin.network/'}>BOTCoin Hub</a>
 							</dd>
 							<dd>
-								<a href="https://mosaicnetworks.io">
-									Mosaic Networks
-								</a>
-							</dd>
-							<dd>
-								<a href="http://docs.monet.network">
+								<a href="https://botcoin.network/docs/html/index.html">
 									Documentation
 								</a>
 							</dd>
 							<dd>
-								<a href="https://github.com/mosaicnetworks">
+								<a href="https://github.com/BOTCoinNetwork/">
 									Github
 								</a>
 							</dd>
@@ -116,9 +100,9 @@ const Footer: React.FC<{}> = props => {
 									<div>
 										<a
 											target="_top"
-											href="mailto:ping@monet.network"
+											href="service@botcoin.network"
 										>
-											ping@monet.network
+											service@botcoin.network
 										</a>
 									</div>
 								</dd>
@@ -127,9 +111,9 @@ const Footer: React.FC<{}> = props => {
 									<div>
 										<a
 											target="_blank"
-											href="https://babbleio.slack.com"
+											href="https://x.com/BOTCoinNetwork"
 										>
-											Slack
+											X
 										</a>
 									</div>
 								</dd>

@@ -19,7 +19,10 @@ import {
 } from '../modules/dashboard';
 import { selectAllNetworks, selectNetwork } from '../selectors';
 
-import LOGO from '../assets/monet.svg';
+import BOTCoin_logo from '../assets/logo.png';
+const SIcon = styled(Image)`
+	margin-bottom: 10px;
+`;
 
 const SNavbar = styled(Navbar)`
 	transition: background 0.3s cubic-bezier(1, 1, 1, 1);
@@ -59,8 +62,8 @@ const SNavbar = styled(Navbar)`
 `;
 
 const SBrand = styled(Navbar.Brand)`
-	font-size: 20px !important;
-	font-family: MonetFont !important;
+	font-size: 28px !important;
+	font-family: PixelGamerFont !important;
 	letter-spacing: 4px;
 
 	a {
@@ -193,28 +196,29 @@ const Header: React.FC<{}> = () => {
 				sticky={'top'}
 			>
 				<Container fluid={false}>
+					<SIcon src={BOTCoin_logo} width={'50'} />
 					<SBrand>
 						{
 							<Link to={'/'}>
-								<span>MONET</span>
+								<span>BOTCoin</span>
 							</Link>
 						}
 					</SBrand>
-					<SNetwork>
+					{/* <SNetwork>
 						{selected && selected.name.split('-')[0]} v
 						{selected && selected.name.split('-')[1]}
-					</SNetwork>
+					</SNetwork> */}
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse
 						id="basic-navbar-nav"
 						className="justify-content-end"
 					>
 						<SNav activeKey="/">
-							<Nav.Item>
+							{/* <Nav.Item>
 								<Nav.Link as="span" eventKey="link-2">
 									<Link to={'/'}>Dashboard</Link>
 								</Nav.Link>
-							</Nav.Item>
+							</Nav.Item> */}
 							<Nav.Item>
 								<Nav.Link as="span">
 									<Link to={'/downloads'}>Downloads</Link>

@@ -17,7 +17,7 @@ import { selectNetwork } from '../selectors';
 import { capitalize } from '../utils';
 
 import BG from '../assets/bg.png';
-import MONET_ICON from '../assets/icon.png';
+import BOTCoin_ICON from '../assets/icon.png';
 
 const SIcon = styled(Image)`
 	margin-bottom: 20px;
@@ -69,23 +69,23 @@ const Jumbotron: React.FC<{}> = () => {
 				<Container>
 					<Row className="align-items-center">
 						<Col xs={12} md={5}>
-							<SIcon src={MONET_ICON} width={'100'} />
+							<SIcon src={BOTCoin_ICON} width={'100'} />
 							<Alert.Heading as="h1">
-								Testnet{' '}
-								{capitalize(
+								BOTCoin Testnet{' '}
+								{/* {capitalize(
 									(selected && selected.name.split('-')[0]) ||
 										'None'
 								)}{' '}
-								v{selected && selected.name.split('-')[1]}
+								v{selected && selected.name.split('-')[1]} */}
 							</Alert.Heading>
 							<p>
-								Use our <Link to={'/downloads'}>wallet</Link> to
+								Use our <Link to={'/downloads'}>Wallet</Link> to
 								generate a key and fill the faucet form to
-								automatically receive 100 Tenom on the testnet.
+								automatically receive 100 BOC on the testnet.
 							</p>
 							<p>
 								<a
-									href="https://github.com/mosaicnetworks/"
+									href="https://github.com/BOTCoinNetwork/"
 									target="_blank"
 								>
 									<Button
