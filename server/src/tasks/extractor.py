@@ -108,6 +108,7 @@ class Extractor:
                             gas=tx_obj.startgas,
                             gas_price=tx_obj.gasprice,
                             nonce=tx_obj.nonce,
+                            tx_hash="0x"+tx_obj.hash.hex()
                         )
 
                         _, _ = Transaction.objects.get_or_create(
@@ -120,7 +121,8 @@ class Extractor:
                                 "gas": tx['gas'],
                                 "gas_price": tx['gas_price'],
                                 "nonce": tx['nonce'],
-                                "payload": tx['data']
+                                "payload": tx['data'],
+                                "tx_hash": tx['tx_hash']
                             }
                         )
 
