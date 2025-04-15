@@ -2,21 +2,25 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { useSelector } from 'react-redux';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { 
+	RouteComponentProps, 
+	// Link 
+} from 'react-router-dom';
 
 import Jumbotron from '../components/Jumbotron';
-import Nominees from '../components/Nominees';
+// import Nominees from '../components/Nominees';
 import Stats from '../components/Stats';
 import Validators from '../components/Validators';
-import Whitelist from '../components/Whitelist';
+// import Whitelist from '../components/Whitelist';
+import Blocks from '../components/Blocks';
 
-import History from '../containers/History';
+// import History from '../containers/History';
 
 import { SContent } from '../components/styles';
 import {
-	selectNominees,
+	// selectNominees,
 	selectValidators,
-	selectWhitelist
+	// selectWhitelist
 } from '../selectors';
 
 import Grid, { Quadrant, Section } from '../ui';
@@ -26,20 +30,21 @@ const SValidators = styled.div`
 	border-top: 1px solid #eee;
 `;
 
-const SWhitelist = styled.div`
-	background: #fff;
-	border-top: 1px solid #eee;
-`;
+// const SWhitelist = styled.div`
+// 	background: #fff;
+// 	border-top: 1px solid #eee;
+// `;
 
 const Index: React.FC<RouteComponentProps<{}>> = props => {
 	const validators = useSelector(selectValidators);
-	const nominees = useSelector(selectNominees);
-	const whitelist = useSelector(selectWhitelist);
+	// const nominees = useSelector(selectNominees);
+	// const whitelist = useSelector(selectWhitelist);
 
 	return (
 		<>
 			<Jumbotron />
 			<Stats />
+			<Blocks />
 			<SValidators>
 				<Section>
 					<Grid>
@@ -52,7 +57,7 @@ const Index: React.FC<RouteComponentProps<{}>> = props => {
 					</Grid>
 				</Section>
 			</SValidators>
-			<SWhitelist>
+			{/* <SWhitelist>
 				<Section padding={50}>
 					<Grid verticalAlign={false}>
 						<Quadrant pos={[1, 1]} xs={12} md={12} lg={6} xl={6}>
@@ -71,7 +76,7 @@ const Index: React.FC<RouteComponentProps<{}>> = props => {
 						</Quadrant>
 					</Grid>
 				</Section>
-			</SWhitelist>
+			</SWhitelist> */}
 		</>
 	);
 };
