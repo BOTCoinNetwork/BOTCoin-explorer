@@ -35,7 +35,7 @@ const SNavbar = styled(Navbar)`
 		/* margin-bottom: 30px !important; */
 	}
 
-	${props =>
+	${(props) =>
 		props.theme.enable &&
 		`
 		&.bg-dark {
@@ -44,7 +44,7 @@ const SNavbar = styled(Navbar)`
 		}
 	`}
 
-	${props =>
+	${(props) =>
 		props.theme.enable &&
 		`
 		border-bottom: 1px solid rgba(0, 0, 0 , 0.05) !important;
@@ -68,7 +68,7 @@ const SBrand = styled(Navbar.Brand)`
 
 	a {
 		color: #fff !important;
-		${props =>
+		${(props) =>
 			props.theme.enable &&
 			`
 	color: #000 !important;
@@ -85,7 +85,7 @@ const SNetwork = styled.span`
 	text-transform: capitalize;
 	font-weight: 700 !important;
 	font-size: 18px;
-	${props =>
+	${(props) =>
 		props.theme.enable &&
 		`
 	color: #000 !important;
@@ -100,7 +100,7 @@ const SNav = styled(Nav)`
 	.nav-link a {
 		color: #eee !important;
 
-		${props =>
+		${(props) =>
 			props.theme.enable &&
 			`
 	color: #222 !important;
@@ -260,7 +260,7 @@ const Header: React.FC<{}> = () => {
 									}
 									className="bigger"
 								>
-									Explore
+									Blocks
 								</Button>
 							</Link>
 						</SSearch>

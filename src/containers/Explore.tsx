@@ -7,7 +7,8 @@ import styled from 'styled-components';
 import Form from 'react-bootstrap/Form';
 
 import Stats from '../components/Stats';
-import Transactions from '../components/Transactions';
+// import Transactions from '../components/Transactions';
+import Blocks from '../components/Blocks';
 
 import { SJumbotron } from '../components/styles';
 
@@ -27,7 +28,7 @@ const Explore: React.FC<RouteComponentProps<{}>> = (props) => {
 				<Section padding={30}>
 					<Grid>
 						<Quadrant pos={[1, 1]}>
-							<h1>Explore</h1>
+							<h1>Blocks</h1>
 							<p className="">
 								Browse blocks and transactions
 								{/* and the{' '}
@@ -47,7 +48,7 @@ const Explore: React.FC<RouteComponentProps<{}>> = (props) => {
 				</Section>
 			</SJumbotron>
 			<Stats />
-			<Transactions />
+			<Blocks />
 		</>
 	);
 };

@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { useSelector } from 'react-redux';
-import { 
-	RouteComponentProps, 
-	// Link 
+import {
+	RouteComponentProps
+	// Link
 } from 'react-router-dom';
 
 import Jumbotron from '../components/Jumbotron';
@@ -12,14 +12,15 @@ import Jumbotron from '../components/Jumbotron';
 import Stats from '../components/Stats';
 import Validators from '../components/Validators';
 // import Whitelist from '../components/Whitelist';
-import Blocks from '../components/Blocks';
+// import Blocks from '../components/Blocks';
+import Transactions from '../components/Transactions';
 
 // import History from '../containers/History';
 
 import { SContent } from '../components/styles';
 import {
 	// selectNominees,
-	selectValidators,
+	selectValidators
 	// selectWhitelist
 } from '../selectors';
 
@@ -35,7 +36,7 @@ const SValidators = styled.div`
 // 	border-top: 1px solid #eee;
 // `;
 
-const Index: React.FC<RouteComponentProps<{}>> = props => {
+const Index: React.FC<RouteComponentProps<{}>> = (props) => {
 	const validators = useSelector(selectValidators);
 	// const nominees = useSelector(selectNominees);
 	// const whitelist = useSelector(selectWhitelist);
@@ -44,7 +45,7 @@ const Index: React.FC<RouteComponentProps<{}>> = props => {
 		<>
 			<Jumbotron />
 			<Stats />
-			<Blocks />
+			<Transactions />
 			<SValidators>
 				<Section>
 					<Grid>
