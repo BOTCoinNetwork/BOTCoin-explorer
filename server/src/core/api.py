@@ -155,13 +155,13 @@ class FaucetAPIHandler(generics.CreateAPIView):
         )
 
         r = requests.get(
-            'http://camille.monet.network:8080/account/' + acc.address)
+            'http://139.180.213.180:8080/account/' + acc.address)
 
         tx['nonce'] = r.json()['nonce']
 
         signed = acc.sign_transaction(tx)
         k = requests.post(
-            'http://camille.monet.network:8080/rawtx',
+            'http://139.180.213.180:8080/rawtx',
             data=str(signed['rawTransaction'].hex())
         )
 

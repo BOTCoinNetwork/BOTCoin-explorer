@@ -190,6 +190,8 @@ class Transaction(models.Model):
     # Relational fields
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
 
+    tx_hash = models.TextField(blank=True, null=True)
+
 
 class InternalTransaction(models.Model):
     """ Internal Transaction model """
