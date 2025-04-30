@@ -13,7 +13,7 @@ from ethereum import transactions
 from core.models import *
 
 
-poa_api = "172.31.0.243"
+poa_api = "139.180.213.180"
 
 
 class Extractor:
@@ -314,5 +314,23 @@ class Extractor:
 
 def run():
     """ Initialize and run extractor """
-
-    Extractor().run()
+    import logging
+    import os
+    # 获取当前文件所在目录的父目录(server目录)
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    log_dir = os.path.join(base_dir, 'logs')
+    
+    # 确保logs目录存在
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+        
+    logging.basicConfig(
+        filename=os.path.join(log_dir, 'cron.log'),
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
+    
+    try:
+        Extractor().run()
+    except Exception as e:
+        logging.error(f"定时任务执行失败: {str(e)}", exc_info=True)
