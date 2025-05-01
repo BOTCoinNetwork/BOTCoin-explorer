@@ -243,10 +243,8 @@ class Extractor:
                     # 处理 min_gas_price，确保不超出 BIGINT 范围
                     try:
                         min_gas_price = int(info['min_gas_price'])
-                        if min_gas_price > 9223372036854775807:  # MySQL BIGINT 最大值
-                            min_gas_price = min_gas_price / (10 ** 18) 
-                        elif min_gas_price < 0:
-                            min_gas_price = 0
+                        min_gas_price = min_gas_price / (10 ** 18) 
+                        min_gas_price = min(min_gas_price, 9223372036854775807)  # min BIGINT 
                     except (ValueError, TypeError):
                         min_gas_price = 0
                         logger.warning(f"无效的 min_gas_price 值: {info['min_gas_price']}, 使用默认值 0")
