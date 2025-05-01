@@ -226,17 +226,21 @@ class TransactionAPIHandler(generics.ListAPIView):
     model = Transaction
     serializer_class = TransactionSerializer
 
+    @method_decorator(cache_page(60))  # 缓存1分钟
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
     def get_queryset(self):
         """ Get query set to be listed by Response """
-
-        queryset = Transaction.objects.all()
         network = self.request.query_params.get('network', None)
-
+        
+        queryset = Transaction.objects.select_related('block__network')
+        
         if network is not None:
             queryset = queryset.filter(
                 block__network__name=network.lower()
-            ).order_by('-id')
-
+            ).order_by('-id')[:50]  # 限制返回最近50条记录
+        
         return queryset
 
 
