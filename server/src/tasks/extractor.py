@@ -216,22 +216,25 @@ class Extractor:
 
     def extract_validator_info(self):
         """ Fetch info for current validator set for network """
+        import logging
+        logger = logging.getLogger(__name__)
 
         for network in self.__get_networks():
             history = ValidatorHistory.objects.filter(
                 network=network).order_by('-consensus_round').first()
 
             if not history:
-                print("Could not find latest history")
+                logger.warning("Could not find latest history")
                 return
 
             for validator in Validator.objects.filter(history=history, network=network):
-                print(
-                    f'[-] Fetching {validator.moniker}@{history.consensus_round} with {validator.host}:8080')
+                logger.info(f'开始获取验证节点信息: {validator.moniker}@{history.consensus_round} with {validator.host}:8080')
 
                 try:
                     info = self.__get(
                         path=f'http://{validator.host}:8080/info')
+                    
+                    logger.info(f'获取到的原始 info 数据: {json.dumps(info, indent=2)}')
 
                     last_cns_round = info['last_consensus_round']
                     if info['last_consensus_round'] == "nil":
@@ -256,43 +259,70 @@ class Extractor:
                             "rounds_per_second": info['rounds_per_second'],
                             "events_per_second": info['events_per_second'],
                         })
+                    
+                    logger.info(f'Info 模型创建状态: {"新建" if created else "已存在"}')
 
                     if not created:
+                        logger.info('开始更新现有 Info 模型')
+                        old_values = {
+                            'e_id': info_model.e_id,
+                            'type': info_model.type,
+                            'state': info_model.state,
+                            'consensus_events': info_model.consensus_events,
+                            'last_block_index': info_model.last_block_index,
+                            # ... 其他字段的旧值
+                        }
+                        
                         info_model.e_id = info['id']
                         info_model.type = info['type']
                         info_model.state = info['state']
-                        info_model.consensus_events = int(
-                            info['consensus_events'])
-                        info_model.consensus_transactions = int(
-                            info['consensus_transactions'])
-                        info_model.last_block_index = int(
-                            info['last_block_index'])
+                        info_model.consensus_events = int(info['consensus_events'])
+                        info_model.consensus_transactions = int(info['consensus_transactions'])
+                        info_model.last_block_index = int(info['last_block_index'])
                         info_model.last_consensus_round = last_cns_round
-                        info_model.last_peer_change = int(
-                            info['last_peer_change'])
+                        info_model.last_peer_change = int(info['last_peer_change'])
                         info_model.min_gas_price = int(info['min_gas_price'])
                         info_model.num_peers = int(info['num_peers'])
-                        info_model.undetermined_events = int(
-                            info['undetermined_events'])
+                        info_model.undetermined_events = int(info['undetermined_events'])
                         info_model.sync_rate = info['sync_rate']
-                        info_model.transaction_pool = int(
-                            info['transaction_pool'])
+                        info_model.transaction_pool = int(info['transaction_pool'])
                         info_model.rounds_per_second = info['rounds_per_second']
                         info_model.events_per_second = info['events_per_second']
 
-                        info_model.save()
+                        try:
+                            info_model.save()
+                            logger.info('Info 模型更新成功')
+                            
+                            # 记录更改的字段
+                            new_values = {
+                                'e_id': info_model.e_id,
+                                'type': info_model.type,
+                                'state': info_model.state,
+                                'consensus_events': info_model.consensus_events,
+                                'last_block_index': info_model.last_block_index,
+                                # ... 其他字段的新值
+                            }
+                            
+                            changes = {k: {'old': old_values[k], 'new': new_values[k]} 
+                                     for k in old_values 
+                                     if old_values[k] != new_values[k]}
+                            
+                            if changes:
+                                logger.info(f'字段更新详情: {json.dumps(changes, indent=2)}')
+                            else:
+                                logger.info('没有字段发生变化')
+                                
+                        except Exception as save_err:
+                            logger.error(f'保存 Info 模型时出错: {str(save_err)}', exc_info=True)
 
                     validator.reachable = True
                     validator.save()
 
                 except Exception as err:
-                    print(err)
-
+                    logger.error(f'获取验证节点信息失败: {str(err)}', exc_info=True)
                     validator.reachable = False
                     validator.save()
-
-                    print(
-                        f'[x] Could not connect to {validator.moniker} - {validator.host}:8080')
+                    logger.warning(f'无法连接到验证节点 {validator.moniker} - {validator.host}:8080')
 
                 self.__fetch_version(validator)
 
