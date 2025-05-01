@@ -1,6 +1,6 @@
 """ Extractor class - pulls required data from a monet node
 
-monetd: 0.3.3
+botcoin: 0.3.3
 """
 
 import json
@@ -295,7 +295,7 @@ class Extractor:
             path=f'http://{validator.host}:8080/version')
 
         version_model, created = Version.objects.get_or_create(validator=validator, defaults={
-            "monetd": version_info['monetd'],
+            "monetd": version_info['botcoin'],
             "evm_lite": version_info['evm-lite'],
             "babble": version_info['babble'],
             "solc": version_info['solc'],
@@ -303,7 +303,7 @@ class Extractor:
         })
 
         if not created:
-            version_model.monetd = version_info['monetd']
+            version_model.monetd = version_info['botcoin']
             version_model.babble = version_info['babble']
             version_model.evm_lite = version_info['evm-lite']
             version_model.solc = version_info['solc']
