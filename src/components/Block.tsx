@@ -1,17 +1,8 @@
 import React from 'react';
 
 import styled from 'styled-components';
-
-import { Link } from 'react-router-dom';
-
-import Badge from 'react-bootstrap/Badge';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import Media from 'react-bootstrap/Media';
-import Row from 'react-bootstrap/Row';
-
 import Avatar from './Avatar';
-import Signature from './Signature';
 
 import { Block as TBlock } from '../client';
 import { pubKeyToAddress } from '../utils';
