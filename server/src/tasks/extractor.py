@@ -316,11 +316,11 @@ def run():
     """ Initialize and run extractor """
     import logging
     import os
-    # 获取当前文件所在目录的父目录(server目录)
+    # Get the parent directory (server directory)
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     log_dir = os.path.join(base_dir, 'logs')
     
-    # 确保logs目录存在
+    # Ensure logs directory exists
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
         
@@ -331,6 +331,74 @@ def run():
     )
     
     try:
-        Extractor().run()
+        logger = logging.getLogger(__name__)
+        logger.info("Starting scheduled task")
+        extractor = Extractor()
+        
+        logger.info("Starting validator history extraction")
+        extractor.extract_validator_history()
+        
+        logger.info("Starting validator info extraction")
+        extractor.extract_validator_info()
+        
+        logger.info("Starting block extraction")
+        extractor.extract_blocks()
+        
+        logger.info("Scheduled task completed")
     except Exception as e:
-        logging.error(f"定时任务执行失败: {str(e)}", exc_info=True)
+        logging.error(f"Scheduled task failed: {str(e)}", exc_info=True)
+
+def extract_blocks(self):
+    """ Pulls all blocks from the node """
+    logger = logging.getLogger(__name__)
+    
+    for network in self.__get_networks():
+        try:
+            logger.info(f"Processing blocks for network: {network.name}")
+            
+            last_saved_block = Block.objects.filter(
+                network=network).order_by('-index').first()
+            
+            logger.info(f"Last saved block index: {last_saved_block.index if last_saved_block else 'None'}")
+            
+            # Log pre-request information
+            logger.info(f"Requesting network info: http://{network.host}:{network.port}/info")
+            try:
+                info = requests.get(
+                    url=f'http://{network.host}:{network.port}/info').json()
+                logger.info(f"Successfully retrieved network info: {json.dumps(info, indent=2)}")
+            except Exception as e:
+                logger.error(f"Failed to get network info: {str(e)}", exc_info=True)
+                continue
+
+            start = 0
+            end = int(info['last_block_index'])
+            
+            if last_saved_block:
+                start = last_saved_block.index - 20
+            
+            if start < 0:
+                start = 0
+                
+            logger.info(f"Starting block sync, range: {start} - {end}")
+
+            while start <= end:
+                try:
+                    logger.info(f"Fetching blocks {start}//{end}")
+                    block_url = f'http://{network.host}:8080/blocks/{start}?count=50'
+                    logger.info(f"Request URL: {block_url}")
+                    
+                    new_blocks = requests.get(url=block_url).json()
+                    logger.info(f"Successfully retrieved {len(new_blocks)} blocks")
+                    
+                    for block in new_blocks:
+                        block_index = block['Body']['Index']
+                        logger.info(f"Processing block {block_index}")
+                        # ... existing code ...
+                        start = start + 50
+                except Exception as e:
+                    logger.error(f"Failed to process blocks {start}-{start+50}: {str(e)}", exc_info=True)
+                    start = start + 50  # Continue with next batch even if current fails
+                    
+        except Exception as e:
+            logger.error(f"Failed to process network {network.name}: {str(e)}", exc_info=True)
