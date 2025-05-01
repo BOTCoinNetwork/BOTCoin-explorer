@@ -13,7 +13,7 @@ $ npm install
 Once that has finished to run both the backend and the front end
 
 ```bash
-$ npm run dev
+$ npm run dev:react
 ```
 
 You will then need to create a credential for the admin panel by following the prompts from `python3 server/src/manage.py createsuperuser`.

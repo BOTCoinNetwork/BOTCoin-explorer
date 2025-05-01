@@ -86,7 +86,7 @@ const Transaction: React.FC<Props> = ({ transaction }) => {
 						<td>0.12T</td>
 						<td className="text-center">
 							<img
-								src="https://image.flaticon.com/icons/svg/1828/1828640.svg"
+								src="/src/assets/contact.svg"
 								width={20}
 							/>
 						</td>

@@ -20,6 +20,7 @@ import { SContent, SJumbotron, SSection } from '../components/styles';
 import { selectBlock } from '../selectors';
 
 import Grid, { Section, Quadrant } from '../ui';
+import contract from '../assets/contract.svg';
 
 type Props = {
 	index: string;
@@ -108,7 +109,7 @@ const Block: React.FC<RouteComponentProps<Props>> = props => {
 															{(t.payload.length >
 																0 && (
 																<img
-																	src="https://image.flaticon.com/icons/svg/1828/1828640.svg"
+																	src={contract}
 																	width={20}
 																/>
 															)) ||

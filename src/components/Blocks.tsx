@@ -26,6 +26,7 @@ import {
 	selectTxsLoading
 } from '../selectors';
 import { commaSeperate } from '../utils';
+import contract from '../assets/contract.svg';
 
 const SLink = styled(Link)`
 	text-decoration: none !important;
@@ -129,7 +130,7 @@ const Blocks: React.FC<{}> = () => {
 												<td className="text-center">
 													{(t.payload.length > 0 && (
 														<img
-															src="https://image.flaticon.com/icons/svg/1828/1828640.svg"
+															src={contract}
 															width={20}
 														/>
 													)) ||
