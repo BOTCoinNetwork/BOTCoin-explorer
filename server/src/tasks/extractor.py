@@ -293,7 +293,6 @@ class Extractor:
 
                         try:
                             info_model.save()
-                            logger.info('Info successfully updated')
                             
                         except Exception as save_err:
                             logger.error(f'Info save err: {str(save_err)}', exc_info=True)
