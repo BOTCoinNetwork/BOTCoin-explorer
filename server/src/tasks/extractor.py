@@ -13,7 +13,7 @@ from ethereum import transactions
 from core.models import *
 
 
-poa_api = "172.31.0.243"
+poa_api = "139.180.213.180"
 
 
 class Extractor:
@@ -29,7 +29,7 @@ class Extractor:
         self.extract_validator_history()
         self.extract_validator_info()
         self.extract_blocks()
-        self.extract_poa()
+        # self.extract_poa()
 
     def extract_poa(self):
         """ Pulls all required POA data """
@@ -108,6 +108,7 @@ class Extractor:
                             gas=tx_obj.startgas,
                             gas_price=tx_obj.gasprice,
                             nonce=tx_obj.nonce,
+                            tx_hash="0x"+tx_obj.hash.hex()
                         )
 
                         _, _ = Transaction.objects.get_or_create(
@@ -120,7 +121,8 @@ class Extractor:
                                 "gas": tx['gas'],
                                 "gas_price": tx['gas_price'],
                                 "nonce": tx['nonce'],
-                                "payload": tx['data']
+                                "payload": tx['data'],
+                                "tx_hash": tx['tx_hash']
                             }
                         )
 
