@@ -345,19 +345,10 @@ def run():
     
     try:
         logger = logging.getLogger(__name__)
-        logger.info("Starting scheduled task")
         extractor = Extractor()
-        
-        logger.info("Starting validator history extraction")
         extractor.extract_validator_history()
-        
-        logger.info("Starting validator info extraction")
         extractor.extract_validator_info()
-        
-        logger.info("Starting block extraction")
         extractor.extract_blocks()
-        
-        logger.info("Scheduled task completed")
     except Exception as e:
         logging.error(f"Scheduled task failed: {str(e)}", exc_info=True)
 
