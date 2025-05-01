@@ -228,19 +228,15 @@ class Extractor:
                 return
 
             for validator in Validator.objects.filter(history=history, network=network):
-                logger.info(f'开始获取验证节点信息: {validator.moniker}@{history.consensus_round} with {validator.host}:8080')
 
                 try:
                     info = self.__get(
                         path=f'http://{validator.host}:8080/info')
-                    
-                    logger.info(f'获取到的原始 info 数据: {json.dumps(info, indent=2)}')
 
                     last_cns_round = info['last_consensus_round']
                     if info['last_consensus_round'] == "nil":
                         last_cns_round = 0
 
-                    # 处理 min_gas_price，确保不超出 BIGINT 范围
                     try:
                         min_gas_price = int(info['min_gas_price'])
                         min_gas_price = min_gas_price / (10 ** 18) 
@@ -268,18 +264,15 @@ class Extractor:
                             "rounds_per_second": info['rounds_per_second'],
                             "events_per_second": info['events_per_second'],
                         })
-                    
-                    logger.info(f'Info 模型创建状态: {"新建" if created else "已存在"}')
 
                     if not created:
-                        logger.info('开始更新现有 Info 模型')
                         old_values = {
                             'e_id': info_model.e_id,
                             'type': info_model.type,
                             'state': info_model.state,
                             'consensus_events': info_model.consensus_events,
                             'last_block_index': info_model.last_block_index,
-                            # ... 其他字段的旧值
+                            # ... other
                         }
                         
                         info_model.e_id = info['id']
@@ -300,19 +293,19 @@ class Extractor:
 
                         try:
                             info_model.save()
-                            logger.info('Info 模型更新成功')
+                            logger.info('Info successfully updated')
                             
                         except Exception as save_err:
-                            logger.error(f'保存 Info 模型时出错: {str(save_err)}', exc_info=True)
+                            logger.error(f'Info save err: {str(save_err)}', exc_info=True)
 
                     validator.reachable = True
                     validator.save()
 
                 except Exception as err:
-                    logger.error(f'获取验证节点信息失败: {str(err)}', exc_info=True)
+                    logger.error(f'get validator err: {str(err)}', exc_info=True)
                     validator.reachable = False
                     validator.save()
-                    logger.warning(f'无法连接到验证节点 {validator.moniker} - {validator.host}:8080')
+                    logger.warning(f'not conneted validator {validator.moniker} - {validator.host}:8080')
 
                 self.__fetch_version(validator)
 
