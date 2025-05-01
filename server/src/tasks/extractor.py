@@ -240,6 +240,17 @@ class Extractor:
                     if info['last_consensus_round'] == "nil":
                         last_cns_round = 0
 
+                    # 处理 min_gas_price，确保不超出 BIGINT 范围
+                    try:
+                        min_gas_price = int(info['min_gas_price'])
+                        if min_gas_price > 9223372036854775807:  # MySQL BIGINT 最大值
+                            min_gas_price = 9223372036854775807
+                        elif min_gas_price < 0:
+                            min_gas_price = 0
+                    except (ValueError, TypeError):
+                        min_gas_price = 0
+                        logger.warning(f"无效的 min_gas_price 值: {info['min_gas_price']}, 使用默认值 0")
+
                     info_model, created = Info.objects.get_or_create(
                         validator=validator,
                         defaults={
@@ -251,7 +262,7 @@ class Extractor:
                             "last_block_index": info['last_block_index'],
                             "last_consensus_round": last_cns_round,
                             "last_peer_change": info['last_peer_change'],
-                            "min_gas_price": info['min_gas_price'],
+                            "min_gas_price": min_gas_price,
                             "num_peers": info['num_peers'],
                             "undetermined_events": info['undetermined_events'],
                             "sync_rate": info['sync_rate'],
@@ -281,7 +292,7 @@ class Extractor:
                         info_model.last_block_index = int(info['last_block_index'])
                         info_model.last_consensus_round = last_cns_round
                         info_model.last_peer_change = int(info['last_peer_change'])
-                        info_model.min_gas_price = int(info['min_gas_price'])
+                        info_model.min_gas_price = min_gas_price
                         info_model.num_peers = int(info['num_peers'])
                         info_model.undetermined_events = int(info['undetermined_events'])
                         info_model.sync_rate = info['sync_rate']
@@ -293,25 +304,6 @@ class Extractor:
                             info_model.save()
                             logger.info('Info 模型更新成功')
                             
-                            # 记录更改的字段
-                            new_values = {
-                                'e_id': info_model.e_id,
-                                'type': info_model.type,
-                                'state': info_model.state,
-                                'consensus_events': info_model.consensus_events,
-                                'last_block_index': info_model.last_block_index,
-                                # ... 其他字段的新值
-                            }
-                            
-                            changes = {k: {'old': old_values[k], 'new': new_values[k]} 
-                                     for k in old_values 
-                                     if old_values[k] != new_values[k]}
-                            
-                            if changes:
-                                logger.info(f'字段更新详情: {json.dumps(changes, indent=2)}')
-                            else:
-                                logger.info('没有字段发生变化')
-                                
                         except Exception as save_err:
                             logger.error(f'保存 Info 模型时出错: {str(save_err)}', exc_info=True)
 
