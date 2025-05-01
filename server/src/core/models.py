@@ -192,8 +192,6 @@ class Transaction(models.Model):
     
     tx_hash = models.TextField(blank=True, null=True)
 
-    tx_hash = models.TextField(blank=True, null=True)
-
 
 class InternalTransaction(models.Model):
     """ Internal Transaction model """
