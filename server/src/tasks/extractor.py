@@ -244,7 +244,7 @@ class Extractor:
                     try:
                         min_gas_price = int(info['min_gas_price'])
                         if min_gas_price > 9223372036854775807:  # MySQL BIGINT 最大值
-                            min_gas_price = 9223372036854775807
+                            min_gas_price = min_gas_price / (10 ** 18) 
                         elif min_gas_price < 0:
                             min_gas_price = 0
                     except (ValueError, TypeError):
