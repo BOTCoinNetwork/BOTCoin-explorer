@@ -138,7 +138,7 @@ class FaucetAPIHandler(generics.CreateAPIView):
 
         # submit eth tx here.
         acc = Account.from_key(
-            0xb775ba20836e4595aab3689c8b311e32b32d51522da7bb15ae627a25c8d5d829
+            0x3b1118dfa90ae88a8cae0ae3ca4dc2f758e0dac0a510f6c743a3c5bf12e53973
         )
 
         to = request.data['address']
@@ -150,8 +150,8 @@ class FaucetAPIHandler(generics.CreateAPIView):
             to=checksum_encode(bytes.fromhex(to)),
             value=100000000000000000000,
             chainId=1,
-            gas=25000,
-            gasPrice=10,
+            gas=21000,
+            gasPrice=30,
         )
 
         r = requests.get(
