@@ -224,6 +224,11 @@ const Header: React.FC<{}> = () => {
 									<Link to={'/downloads'}>Downloads</Link>
 								</Nav.Link>
 							</Nav.Item>
+							<Nav.Item>
+								<Nav.Link as="span">
+									<a href="https://Mining.botcoin.network/" target="_blank" rel="noopener noreferrer">Mining</a>
+								</Nav.Link>
+							</Nav.Item> 
 							{/* <NavDropdown title="Networks" id="dropdownn">
 								{networks.map(n => (
 									<NavDropdown.Item

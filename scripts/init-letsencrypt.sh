@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(dashboard.monet.network)
+domains=(explorerapi.botcoin.network)
 rsa_key_size=4096
 data_path="./docker/certbot"
 email="danushan@babble.io" # Adding a valid address is strongly recommended

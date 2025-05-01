@@ -73,7 +73,7 @@
 		"docker:build": "docker build --rm -f ./docker/Dockerfile -t monet-explorer:latest .",
 		"docker:run": "docker run --rm -it -p 80:80 monet-explorer:latest",
 		"dev:django": "cd server && .venv/bin/python3 src/manage.py runserver 0.0.0.0:8000",
-		"dev:react": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts start PORT=3002",
+		"dev:react": "PORT=3002 react-scripts start",
 		"superuser": "python3 server/src/manage.py createsuperuser",
 		"cron": "yarn cron:val && yarn cron:blocks",
 		"cron:run": "python3 server/src/manage.py crontab run",
