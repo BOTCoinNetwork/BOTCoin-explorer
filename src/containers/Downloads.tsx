@@ -104,7 +104,7 @@ const Transactions: React.FC<{}> = () => {
 									<SBox>
 										<Media>
 											<a
-												href={`https://github.com/mosaicnetworks/${app.repository_name}/`}
+												href={`https://github.com/BOTCoinNetwork/${app.repository_name}/`}
 											>
 												<img
 													src={

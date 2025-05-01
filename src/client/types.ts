@@ -49,6 +49,7 @@ export type Transaction = {
 	gas_price: number;
 	nonce: number;
 	payload: string;
+	tx_hash: string;
 };
 
 export type InternalTransaction = {

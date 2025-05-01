@@ -1,6 +1,6 @@
-# Monet Explorer
+# BOTCoin Explorer
 
-The Monet Dashboard.
+The BOTCoin Dashboard.
 
 ## Setting Up
 

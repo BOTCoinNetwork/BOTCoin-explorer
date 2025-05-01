@@ -2,8 +2,6 @@ import styled from 'styled-components';
 
 import Table from 'react-bootstrap/Table';
 
-import BG from '../assets/bg.png';
-
 export const SContent = styled.div`
 	h3 {
 		font-size: 16px;
@@ -56,7 +54,7 @@ export const STable = styled(Table)`
 
 export const SJumbotron = styled.div`
 	padding: 0px 0px !important;
-	background: url(${BG}) !important;
+	background: #fff !important;
 	background-size: cover !important;
 	background-position-y: -10px !important;
 	color: #eee !important;

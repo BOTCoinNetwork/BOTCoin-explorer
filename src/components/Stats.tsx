@@ -73,7 +73,7 @@ const Stats: React.FC<{}> = props => {
 			<SStats>
 				<Container fluid={false}>
 					<Row>
-						<Col xs={6} md={3}>
+						<Col xs={6} md={4}>
 							<SContentPadded>
 								<Await
 									loading={statLoading}
@@ -90,7 +90,7 @@ const Stats: React.FC<{}> = props => {
 								</div>
 							</SContentPadded>
 						</Col>
-						<Col xs={6} md={3}>
+						<Col xs={6} md={4}>
 							<SContentPadded>
 								<Await
 									loading={statLoading}
@@ -110,7 +110,7 @@ const Stats: React.FC<{}> = props => {
 								</div>
 							</SContentPadded>
 						</Col>
-						<Col xs={6} md={3}>
+						<Col xs={6} md={4}>
 							<SContentPadded>
 								<h1>{validators.length}</h1>
 								<div style={{ fontWeight: 600 }}>
@@ -118,14 +118,14 @@ const Stats: React.FC<{}> = props => {
 								</div>
 							</SContentPadded>
 						</Col>
-						<Col xs={6} md={3}>
+						{/* <Col xs={6} md={3}>
 							<SContentPadded>
 								<h1>{nominees.length}</h1>
 								<div style={{ fontWeight: 600 }}>
 									Current Nominees
 								</div>
 							</SContentPadded>
-						</Col>
+						</Col> */}
 					</Row>
 				</Container>
 			</SStats>

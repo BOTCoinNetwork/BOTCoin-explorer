@@ -16,8 +16,7 @@ import Faucet from '../components/Faucet';
 import { selectNetwork } from '../selectors';
 import { capitalize } from '../utils';
 
-import BG from '../assets/bg.png';
-import MONET_ICON from '../assets/icon.png';
+import BOTCoin_ICON from '../assets/icon.png';
 
 const SIcon = styled(Image)`
 	margin-bottom: 20px;
@@ -25,7 +24,7 @@ const SIcon = styled(Image)`
 
 const SAlert = styled(Alert)`
 	padding: 50px 0px !important;
-	background: url(${BG}) !important;
+	background:rgb(47, 8, 73) !important;
 	background-size: cover !important;
 	background-position-y: -10px !important;
 	color: #eee !important;
@@ -69,23 +68,23 @@ const Jumbotron: React.FC<{}> = () => {
 				<Container>
 					<Row className="align-items-center">
 						<Col xs={12} md={5}>
-							<SIcon src={MONET_ICON} width={'100'} />
+							<SIcon src={BOTCoin_ICON} width={'100'} />
 							<Alert.Heading as="h1">
-								Testnet{' '}
-								{capitalize(
+								BOTCoin Testnet{' '}
+								{/* {capitalize(
 									(selected && selected.name.split('-')[0]) ||
 										'None'
 								)}{' '}
-								v{selected && selected.name.split('-')[1]}
+								v{selected && selected.name.split('-')[1]} */}
 							</Alert.Heading>
 							<p>
-								Use our <Link to={'/downloads'}>wallet</Link> to
+								Use our <Link to={'/downloads'}>Wallet</Link> to
 								generate a key and fill the faucet form to
-								automatically receive 100 Tenom on the testnet.
+								automatically receive 100 BOC on the testnet.
 							</p>
 							<p>
 								<a
-									href="https://github.com/mosaicnetworks/"
+									href="https://github.com/BOTCoinNetwork/"
 									target="_blank"
 								>
 									<Button
@@ -99,12 +98,6 @@ const Jumbotron: React.FC<{}> = () => {
 						</Col>
 						<Col xs={12} md={5}>
 							<Faucet />
-						</Col>
-						<Col md={2} className="d-none d-sm-block text-center">
-							<Image
-								src="https://monet.network/app/images/products/tenom.svg"
-								width={150}
-							/>
 						</Col>
 					</Row>
 				</Container>

@@ -12,7 +12,7 @@ import FaucetComponent from '../components/Faucet';
 import { SContent } from '../components/styles';
 
 import Background from '../assets/bg.svg';
-import Logo from '../assets/monet.svg';
+import Logo from '../assets/icon.png';
 
 const SBlue = styled.div`
 	background: url(${Background});
@@ -32,16 +32,16 @@ const Faucet: React.FC<{}> = props => {
 						<Col>
 							<div className="padding">
 								If you are interested in participating in our
-								testnet, use the form to receive 100T (Tenom) to
+								testnet, use the form to receive 100BOC (Tenom) to
 								your address. You can find libraries and tools
 								on our{' '}
-								<a href="https://github.com/mosaicnetworks">
+								<a href="https://github.com/BOTCoinNetwork">
 									GitHub
 								</a>
 								. If you do not have an address yet, you can
 								easily create one using{' '}
-								<a href="https://github.com/mosaicnetworks/monetcli">
-									MonetCLI
+								<a href="https://github.com/BOTCoinNetwork/botcoincli">
+									BOTCoinCLI
 								</a>
 								.
 								<br />

@@ -19,20 +19,23 @@ import {
 } from '../modules/dashboard';
 import { selectAllNetworks, selectNetwork } from '../selectors';
 
-import LOGO from '../assets/monet.svg';
+import BOTCoin_logo from '../assets/logo.png';
+const SIcon = styled(Image)`
+	margin-bottom: 10px;
+`;
 
 const SNavbar = styled(Navbar)`
 	transition: background 0.3s cubic-bezier(1, 1, 1, 1);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+	border-bottom: 0px solid rgba(0, 0, 0, 0.1) !important;
 
 	&.bg-dark {
-		background: linear-gradient(93deg, #1c3f94, #152c60) !important;
+		background: rgb(69, 17, 112) !important;
 		color: white !important;
 		/* border-bottom: 1px solid #f4f4f4; */
 		/* margin-bottom: 30px !important; */
 	}
 
-	${props =>
+	${(props) =>
 		props.theme.enable &&
 		`
 		&.bg-dark {
@@ -41,7 +44,7 @@ const SNavbar = styled(Navbar)`
 		}
 	`}
 
-	${props =>
+	${(props) =>
 		props.theme.enable &&
 		`
 		border-bottom: 1px solid rgba(0, 0, 0 , 0.05) !important;
@@ -59,13 +62,13 @@ const SNavbar = styled(Navbar)`
 `;
 
 const SBrand = styled(Navbar.Brand)`
-	font-size: 20px !important;
-	font-family: MonetFont !important;
+	font-size: 28px !important;
+	font-family: PixelGamerFont !important;
 	letter-spacing: 4px;
 
 	a {
 		color: #fff !important;
-		${props =>
+		${(props) =>
 			props.theme.enable &&
 			`
 	color: #000 !important;
@@ -82,7 +85,7 @@ const SNetwork = styled.span`
 	text-transform: capitalize;
 	font-weight: 700 !important;
 	font-size: 18px;
-	${props =>
+	${(props) =>
 		props.theme.enable &&
 		`
 	color: #000 !important;
@@ -97,7 +100,7 @@ const SNav = styled(Nav)`
 	.nav-link a {
 		color: #eee !important;
 
-		${props =>
+		${(props) =>
 			props.theme.enable &&
 			`
 	color: #222 !important;
@@ -193,28 +196,29 @@ const Header: React.FC<{}> = () => {
 				sticky={'top'}
 			>
 				<Container fluid={false}>
+					<SIcon src={BOTCoin_logo} width={'50'} />
 					<SBrand>
 						{
 							<Link to={'/'}>
-								<span>MONET</span>
+								<span>BOTCoin</span>
 							</Link>
 						}
 					</SBrand>
-					<SNetwork>
+					{/* <SNetwork>
 						{selected && selected.name.split('-')[0]} v
 						{selected && selected.name.split('-')[1]}
-					</SNetwork>
+					</SNetwork> */}
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse
 						id="basic-navbar-nav"
 						className="justify-content-end"
 					>
 						<SNav activeKey="/">
-							<Nav.Item>
+							{/* <Nav.Item>
 								<Nav.Link as="span" eventKey="link-2">
 									<Link to={'/'}>Dashboard</Link>
 								</Nav.Link>
-							</Nav.Item>
+							</Nav.Item> */}
 							<Nav.Item>
 								<Nav.Link as="span">
 									<Link to={'/downloads'}>Downloads</Link>
@@ -256,7 +260,7 @@ const Header: React.FC<{}> = () => {
 									}
 									className="bigger"
 								>
-									Explore
+									Blocks
 								</Button>
 							</Link>
 						</SSearch>

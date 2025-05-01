@@ -64,6 +64,7 @@ const Block: React.FC<RouteComponentProps<Props>> = props => {
 									<Table>
 										<thead>
 											<tr>
+												<th>Hash</th>
 												<th>From</th>
 												<th>To</th>
 												<th>Value</th>
@@ -78,6 +79,7 @@ const Block: React.FC<RouteComponentProps<Props>> = props => {
 											{block.transactions.map(t => (
 												<>
 													<tr key={t.data}>
+														<td>{t.tx_hash}</td>
 														<td>
 															<Avatar
 																address={
