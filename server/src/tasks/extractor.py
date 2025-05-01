@@ -106,25 +106,29 @@ class Extractor:
                             value=tx_obj.value,
                             data=tx_obj.data.hex(),
                             gas=tx_obj.startgas,
-                            gas_price=tx_obj.gasprice,
+                            gas_price=min(tx_obj.gasprice, 9223372036854775807),  #  max BIGINT 
                             nonce=tx_obj.nonce,
                             tx_hash="0x"+tx_obj.hash.hex()
                         )
 
-                        _, _ = Transaction.objects.get_or_create(
-                            block=m_block,
-                            data=tx_string,
-                            defaults={
-                                "sender": tx['sender'],
-                                "to": tx['to'],
-                                "amount": tx['value'],
-                                "gas": tx['gas'],
-                                "gas_price": tx['gas_price'],
-                                "nonce": tx['nonce'],
-                                "payload": tx['data'],
-                                "tx_hash": tx['tx_hash']
-                            }
-                        )
+                        try:
+                            _, _ = Transaction.objects.get_or_create(
+                                block=m_block,
+                                data=tx_string,
+                                defaults={
+                                    "sender": tx['sender'],
+                                    "to": tx['to'],
+                                    "amount": tx['value'],
+                                    "gas": tx['gas'],
+                                    "gas_price": tx['gas_price'],
+                                    "nonce": tx['nonce'],
+                                    "payload": tx['data'],
+                                    "tx_hash": tx['tx_hash']
+                                }
+                            )
+                        except Exception as e:
+                            logger.error(f"Failed to save transaction: {str(e)}", exc_info=True)
+                            continue  
 
                     for itx_string in block['Body']['InternalTransactions']:
                         _, _ = InternalTransaction.objects.get_or_create(
