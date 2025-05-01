@@ -226,7 +226,7 @@ class TransactionAPIHandler(generics.ListAPIView):
     model = Transaction
     serializer_class = TransactionSerializer
 
-    @method_decorator(cache_page(60))  # 缓存1分钟
+    @method_decorator(cache_page(60))  
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -239,7 +239,7 @@ class TransactionAPIHandler(generics.ListAPIView):
         if network is not None:
             queryset = queryset.filter(
                 block__network__name=network.lower()
-            ).order_by('-id')[:50]  # 限制返回最近50条记录
+            ).order_by('-id')[:50]  
         
         return queryset
 
