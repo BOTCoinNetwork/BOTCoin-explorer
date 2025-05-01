@@ -103,9 +103,11 @@ class Extractor:
 
                         tx_obj = decode(raw_tx, transactions.Transaction)
                         
-                        # gas_price， BIGINT 
-                        gas_price = min(tx_obj.gasprice, 9223372036854775807)  # MySQL BIGINT 最大值
-                        value = min(tx_obj.value, 9223372036854775807)  # 同样限制 value
+                        #  gas_price (/ 10^18)
+                        gas_price = tx_obj.gasprice / (10 ** 18)  
+                        gas_price = min(gas_price, 9223372036854775807)  
+                        
+                        value = tx_obj.value 
                         
                         tx = dict(
                             sender=tx_obj.sender.hex(),
@@ -117,7 +119,7 @@ class Extractor:
                             nonce=tx_obj.nonce,
                             tx_hash="0x"+tx_obj.hash.hex()
                         )
-
+                        
                         try:
                             _, _ = Transaction.objects.get_or_create(
                                 block=m_block,
