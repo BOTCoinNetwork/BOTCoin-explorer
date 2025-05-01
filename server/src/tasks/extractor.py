@@ -51,6 +51,8 @@ class Extractor:
 
     def extract_blocks(self):
         """ Pulls all blocks from the node """
+        import logging
+        logger = logging.getLogger(__name__)
 
         for network in self.__get_networks():
 
@@ -100,13 +102,18 @@ class Extractor:
                         raw_tx = base64.b64decode(b64_raw_tx)
 
                         tx_obj = decode(raw_tx, transactions.Transaction)
+                        
+                        # gas_price， BIGINT 
+                        gas_price = min(tx_obj.gasprice, 9223372036854775807)  # MySQL BIGINT 最大值
+                        value = min(tx_obj.value, 9223372036854775807)  # 同样限制 value
+                        
                         tx = dict(
                             sender=tx_obj.sender.hex(),
                             to=tx_obj.to.hex(),
-                            value=tx_obj.value,
+                            value=value,
                             data=tx_obj.data.hex(),
                             gas=tx_obj.startgas,
-                            gas_price=min(tx_obj.gasprice, 9223372036854775807),  #  max BIGINT 
+                            gas_price=gas_price,
                             nonce=tx_obj.nonce,
                             tx_hash="0x"+tx_obj.hash.hex()
                         )
@@ -127,9 +134,9 @@ class Extractor:
                                 }
                             )
                         except Exception as e:
-                            logger.error(f"Failed to save transaction: {str(e)}", exc_info=True)
-                            continue  
-
+                            logger.error(f"处理交易失败: {str(e)}", exc_info=True)
+                            continue
+                            
                     for itx_string in block['Body']['InternalTransactions']:
                         _, _ = InternalTransaction.objects.get_or_create(
                             block=m_block,
@@ -354,7 +361,6 @@ def run():
 
 def extract_blocks(self):
     """ Pulls all blocks from the node """
-    logger = logging.getLogger(__name__)
     
     for network in self.__get_networks():
         try:
