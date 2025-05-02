@@ -103,8 +103,6 @@ class Extractor:
 
                         tx_obj = decode(raw_tx, transactions.Transaction)
                         
-                        gas_price = min(gas_price, 9223372036854775807)  
-                        
                         value = tx_obj.value 
                         
                         tx = dict(
@@ -113,7 +111,7 @@ class Extractor:
                             value=value,
                             data=tx_obj.data.hex(),
                             gas=tx_obj.startgas,
-                            gas_price=gas_price,
+                            gas_price=tx_obj.gasprice,
                             nonce=tx_obj.nonce,
                             tx_hash="0x"+tx_obj.hash.hex()
                         )
@@ -237,7 +235,7 @@ class Extractor:
 
                     try:
                         min_gas_price = int(info['min_gas_price'])
-                        min_gas_price = min(min_gas_price, 9223372036854775807)  # min BIGINT 
+                        # min_gas_price = min(min_gas_price, 9223372036854775807)  # min BIGINT 
                     except (ValueError, TypeError):
                         min_gas_price = 0
                         logger.warning(f"err min_gas_price : {info['min_gas_price']}, 使用默认值 0")
