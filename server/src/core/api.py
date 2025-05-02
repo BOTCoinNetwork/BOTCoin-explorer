@@ -232,6 +232,9 @@ class TransactionAPIHandler(generics.ListAPIView):
 
     def get_queryset(self):
         """ Get query set to be listed by Response """
+        import logging
+        logger = logging.getLogger(__name__)
+        
         network = self.request.query_params.get('network', None)
         
         queryset = Transaction.objects.select_related('block__network')
@@ -239,7 +242,11 @@ class TransactionAPIHandler(generics.ListAPIView):
         if network is not None:
             queryset = queryset.filter(
                 block__network__name=network.lower()
-            ).order_by('-id')[:50]  
+            ).order_by('-id')[:50]
+            
+            # 添加日志跟踪
+            for tx in queryset:
+                logger.info(f"Transaction data - tx_hash: {tx.tx_hash}, block_id: {tx.block_id}, block: {tx.block}")
         
         return queryset
 
