@@ -110,7 +110,6 @@ class Extractor:
                         value = tx_obj.value 
                         
                         tx = dict(
-                            block_index=m_block.index,
                             sender=tx_obj.sender.hex(),
                             to=tx_obj.to.hex(),
                             value=value,
@@ -126,7 +125,6 @@ class Extractor:
                                 block=m_block,
                                 data=tx_string,
                                 defaults={
-                                    "block_index": m_block.index,
                                     "sender": tx['sender'],
                                     "to": tx['to'],
                                     "amount": tx['value'],
