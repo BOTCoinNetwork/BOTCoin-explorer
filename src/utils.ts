@@ -4,19 +4,25 @@ const keccak256 = require('js-sha3').keccak256;
 
 export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-export const parseBalance = (balance: Currency) => {
-	const b = balance.format('T');
+export const currencyFormatBOC = (amount: Currency) => {
+	// console.log("amount:"+ amount)
+	if(!amount) return '0 BOC';
+	const b = amount.format('T');
 	const l = b.split('.');
 
 	if (l.length !== 2) {
-		return l.join('.');
+		return l.join('.').replace('T', '  BOC');
 	}
 
 	if (l[1]) {
-		l[1] = l[1].slice(0, 4);
+		l[1] = l[1].slice(0, 4)
 	}
 
-	return l.join('.') + 'T';
+	const tAmout = l.join('.')
+	if(tAmout.includes('T')) {
+		return l.join('.').replace('T', '  BOC');
+	}
+	return tAmout + '  BOC';
 };
 
 export const isLetter = (str: string) => {

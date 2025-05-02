@@ -27,52 +27,17 @@ import {
 import contract from '../assets/contract.svg';
 
 import { Overlay, Tooltip } from 'react-bootstrap';
+import { currencyFormatBOC } from '../utils';
+
+import HashTooltip from '../containers/HashTooltip';
 
 
 const SLink = styled(Link)`
 	text-decoration: none !important;
 `;
 
-const HashSpan = styled.span`
-    cursor: pointer;
-    color:rgb(16, 72, 135);
-`;
-
-const CopyButton = styled.button`
-    margin-left: 10px;
-    padding: 2px 18px;
-    border: none;
-    background:rgb(16, 54, 95);
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    &:hover {
-        background:rgb(28, 90, 155);
-    }
-`;
-
-const shortenHash = (hash: string) => {
-    if (!hash) return '';
-    return `${hash.substring(0, 10)}......${hash.substring(hash.length - 10)}`;
-};
-
 const Blocks: React.FC<{}> = () => {
     const dispatch = useDispatch();
-    const [showTooltip, setShowTooltip] = useState<string | null>(null);
-    const [targetRef, setTargetRef] = useState<HTMLElement | null>(null);
-    const [copySuccess, setCopySuccess] = useState<string | null>(null);
-
-    const handleHashClick = useCallback((event: React.MouseEvent<HTMLSpanElement>, hash: string) => {
-        setTargetRef(event.currentTarget);
-        setShowTooltip(showTooltip === hash ? null : hash);
-    }, [showTooltip]);
-
-    const handleCopy = useCallback((text: string) => {
-        navigator.clipboard.writeText(text);
-        setCopySuccess(text);
-        setTimeout(() => setCopySuccess(null), 2000);
-    }, []);
 
 	const txLoading = useSelector(selectTxsLoading);
 
@@ -109,9 +74,7 @@ const Blocks: React.FC<{}> = () => {
 											<th>TX Hash</th>
 											<th>From</th>
 											<th>To</th>
-											<th>Value</th>
-											{/* <th>Gas</th>
-											<th>Gas Price</th> */}
+											<th style={{ minWidth: '8rem' }}>Value</th>
 											<th>Gas Fee</th>
 											<th className="text-center">
 												Contract Call?
@@ -123,29 +86,7 @@ const Blocks: React.FC<{}> = () => {
                                             <tr key={t.data}>
                                                 <td>{t.block_id}</td>
                                                 <td>
-                                                    <HashSpan 
-                                                        onClick={(e) => handleHashClick(e, t.tx_hash)}
-                                                    >
-                                                        {shortenHash(t.tx_hash)}
-                                                    </HashSpan>
-                                                    {targetRef && (
-                                                        <Overlay
-                                                            show={showTooltip === t.tx_hash}
-                                                            target={targetRef}
-                                                            placement="top"
-                                                            rootClose={true}
-                                                            onHide={() => setShowTooltip(null)}
-                                                        >
-                                                            <Tooltip id={`tooltip-${t.tx_hash}`}>
-                                                                <div>
-                                                                    {t.tx_hash}
-                                                                    <CopyButton onClick={() => handleCopy(t.tx_hash)}>
-                                                                        {copySuccess === t.tx_hash ? 'copyed!' : 'copy'}
-                                                                    </CopyButton>
-                                                                </div>
-                                                            </Tooltip>
-                                                        </Overlay>
-                                                    )}
+                                                    <HashTooltip hash={t.tx_hash} />
                                                 </td>
                                                 <td>
                                                     <Avatar
@@ -160,15 +101,11 @@ const Blocks: React.FC<{}> = () => {
                                                     />
                                                 </td>
                                                 <td>
-                                                    {new Currency(
-                                                        t.amount === '0'
-                                                            ? 0
-                                                            : t.amount + 'a'
-                                                    ).format('T')}
+													{currencyFormatBOC(new Currency(Number(t.amount)))}
                                                 </td>
                                                 {/* <td>{commaSeperate(t.gas)}</td>
                                                 <td>{t.gas_price}</td> */}
-                                                <td>{t.gas_price / (10 ** 18) * t.gas}</td> 
+                                                <td>{t.gas_price / (10 ** 18) * t.gas} BOC</td> 
                                                 <td className="text-center">
                                                     {(t.payload.length > 0 && (
                                                         <img

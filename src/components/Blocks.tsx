@@ -25,7 +25,7 @@ import {
 	selectTransactions,
 	selectTxsLoading
 } from '../selectors';
-import { commaSeperate } from '../utils';
+import { commaSeperate, currencyFormatBOC } from '../utils';
 import contract from '../assets/contract.svg';
 
 const SLink = styled(Link)`
@@ -57,7 +57,7 @@ const Blocks: React.FC<{}> = () => {
 		<SSection>
 			<Container fluid={false}>
 				<Row>
-					<Col md={12} lg={7}>
+					<Col md={12} lg={6}>
 						<SContent>
 							<h3>
 								Recent Blocks <Loader loading={loading} />
@@ -91,62 +91,58 @@ const Blocks: React.FC<{}> = () => {
 							</h3>
 							<div className="padding">
 								<Table>
-									<thead>
-										<tr>
-											<th>From</th>
-											<th>To</th>
-											<th>Value</th>
-											<th>Gas</th>
-											<th>Gas Price</th>
-											<th className="text-center">
-												Contract Call?
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										{transactions.map((t) => (
-											<tr key={t.data}>
-												<td>
-													<Avatar
-														address={t.sender}
-														size={35}
-													/>
-												</td>
-												<td>
-													<Avatar
-														address={t.to}
-														size={35}
-													/>
-												</td>
-												<td>
-													{new Currency(
-														t.amount === '0'
-															? 0
-															: t.amount + 'a'
-													).format('T')}
-												</td>
-												<td>{commaSeperate(t.gas)}</td>
-												<td>{t.gas_price}</td>
-												<td className="text-center">
-													{(t.payload.length > 0 && (
-														<img
-															src={contract}
-															width={20}
-														/>
-													)) ||
-														'-'}
-												</td>
-											</tr>
-										))}
-									</tbody>
-								</Table>
-							</div>
-						</SContent>
-					</Col>
-				</Row>
-			</Container>
-		</SSection>
-	);
+                                    <thead>
+                                        <tr>
+                                            <th>From</th>
+                                            <th>To</th>
+                                            <th style={{ minWidth: '8rem' }}>Value</th>
+                                            <th>Gas</th>
+                                            <th>Gas Price</th>
+                                            <th className="text-center">
+                                                Contract Call?
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {transactions.map((t) => (
+                                            <tr key={t.data}>
+                                                <td>
+                                                    <Avatar
+                                                        address={t.sender}
+                                                        size={35}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <Avatar
+                                                        address={t.to}
+                                                        size={35}
+                                                    />
+                                                </td>
+                                                <td>
+                                                    {currencyFormatBOC(new Currency(Number(t.amount)))}
+                                                </td>
+                                                <td>{commaSeperate(t.gas)}</td>
+                                                <td>{t.gas_price / (10 ** 18)}</td>
+                                                <td className="text-center">
+                                                    {(t.payload.length > 0 && (
+                                                        <img
+                                                            src={contract}
+                                                            width={20}
+                                                        />
+                                                    )) ||
+                                                        '-'}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            </div>
+                        </SContent>
+                    </Col>
+                </Row>
+            </Container>
+        </SSection>
+    );
 };
 
 export default Blocks;

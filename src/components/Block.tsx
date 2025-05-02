@@ -100,10 +100,10 @@ const Block: React.FC<Props> = ({ block }) => {
 		<SBlock>
 			<Media>
 				<SBlockAvatar className="align-self-center mr-3">
-					Bk
+					Block
 				</SBlockAvatar>
 				<Media.Body>
-					<h5>Block {block.index}</h5>
+					<h5>Index {block.index}</h5>
 					{/* <p className="mono">{block.state_hash}</p> */}
 					<div className="mono">
 						{block.signatures.map(s => (

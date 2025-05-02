@@ -21,6 +21,8 @@ import { selectBlock } from '../selectors';
 
 import Grid, { Section, Quadrant } from '../ui';
 import contract from '../assets/contract.svg';
+import { currencyFormatBOC } from '../utils';
+import HashTooltip from './HashTooltip';
 
 type Props = {
 	index: string;
@@ -65,12 +67,12 @@ const Block: React.FC<RouteComponentProps<Props>> = props => {
 									<Table>
 										<thead>
 											<tr>
-												<th>Hash</th>
+												<th>TX Hash</th>
 												<th>From</th>
 												<th>To</th>
-												<th>Value</th>
-												<th>Gas</th>
-												<th>Gas Price</th>
+												<th style={{ minWidth: '8rem' }}>Value</th>
+												{/* <th>Gas</th> */}
+												<th>Gas Fee</th>
 												<th className="text-center">
 													Contract Call?
 												</th>
@@ -80,7 +82,9 @@ const Block: React.FC<RouteComponentProps<Props>> = props => {
 											{block.transactions.map(t => (
 												<>
 													<tr key={t.data}>
-														<td>{t.tx_hash}</td>
+														<td>
+															<HashTooltip hash={t.tx_hash} />
+														</td>
 														<td>
 															<Avatar
 																address={
@@ -96,15 +100,10 @@ const Block: React.FC<RouteComponentProps<Props>> = props => {
 															/>
 														</td>
 														<td>
-															{new Currency(
-																t.amount === '0'
-																	? 0
-																	: t.amount +
-																	  'a'
-															).format('T')}
+															{currencyFormatBOC(new Currency(Number(t.amount)))}
 														</td>
-														<td>{t.gas}</td>
-														<td>{t.gas_price}</td>
+														{/* <td>{t.gas}</td> */}
+														<td>{t.gas_price / (10 ** 18) * t.gas} BOC</td>
 														<td className="text-center">
 															{(t.payload.length >
 																0 && (

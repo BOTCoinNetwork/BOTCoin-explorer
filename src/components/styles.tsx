@@ -57,7 +57,7 @@ export const SJumbotron = styled.div`
 	background: #fff !important;
 	background-size: cover !important;
 	background-position-y: -10px !important;
-	color: #eee !important;
+	color: rgba(27, 29, 31, 0.6) !important;
 	border: none !important;
 	box-shadow: none !important;
 	margin-bottom: 0px !important;

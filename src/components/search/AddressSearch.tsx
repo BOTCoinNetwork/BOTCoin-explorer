@@ -13,7 +13,7 @@ import Avatar from '../../components/Avatar';
 import CoreAPI from '../../client';
 
 import { selectNetwork } from '../../selectors';
-import { parseBalance } from '../../utils';
+import { currencyFormatBOC } from '../../utils';
 
 import Grid, { Quadrant as Q, Section } from '../../ui';
 
@@ -79,11 +79,11 @@ const AddressSearch: React.FC<Props> = props => {
 												{account.address.toLowerCase()}
 											</b>
 											<div className="mono">
-												{parseBalance(
+												{currencyFormatBOC(
 													new Currency(
 														account.balance
 													)
-												)}
+												)} 
 											</div>
 										</Media.Body>
 									</Media>
