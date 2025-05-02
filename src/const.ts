@@ -1,4 +1,4 @@
-export const DEV: boolean = false;
+export const DEV: boolean = true;
 
 export const DEV_HOST: string = 'explorerapi.botcoin.network';
 export const DEV_PORT: number = 80;
