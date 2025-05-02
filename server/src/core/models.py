@@ -189,7 +189,6 @@ class Transaction(models.Model):
 
     # Relational fields
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
-    block_id =  models.IntegerField()
     tx_hash = models.TextField(blank=True, null=True)
 
 
