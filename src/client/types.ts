@@ -42,6 +42,7 @@ export type Info = {
 
 export type Transaction = {
 	data: string;
+	block_index: number;
 	sender: string;
 	to: string;
 	amount: string;

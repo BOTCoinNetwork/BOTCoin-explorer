@@ -179,6 +179,7 @@ class Transaction(models.Model):
 
     data = models.TextField()
 
+    block_index = models.IntegerField()
     sender = models.CharField(max_length=42, blank=True, null=True)
     to = models.CharField(max_length=42, blank=True, null=True)
     amount = models.TextField(blank=True, null=True)
