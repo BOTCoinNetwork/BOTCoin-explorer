@@ -74,7 +74,7 @@ const Blocks: React.FC<{}> = () => {
 											<th>TX Hash</th>
 											<th>From</th>
 											<th>To</th>
-											<th style={{ minWidth: '8rem' }}>Value</th>
+											<th style={{ minWidth: '10rem' }}>Value</th>
 											<th>Gas Fee</th>
 											<th className="text-center">
 												Contract Call?
