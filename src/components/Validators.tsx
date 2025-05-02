@@ -92,7 +92,7 @@ const Validators: React.FC<Props> = props => {
 					<td>{stateStyling(v.info.state)}</td>
 					<td>{v.info.last_block_index}</td>
 					<td>{v.info.last_consensus_round}</td>
-					<td>{v.info.min_gas_price}</td>
+					<td>{v.info.min_gas_price  / (10 ** 18) }</td>
 					<td className="mono">
 						{v.version.monetd && 'v'}
 						{v.version.monetd}

@@ -72,8 +72,9 @@ const Blocks: React.FC<{}> = () => {
 											<th>From</th>
 											<th>To</th>
 											<th>Value</th>
-											<th>Gas</th>
-											<th>Gas Price</th>
+											{/* <th>Gas</th>
+											<th>Gas Price</th> */}
+											<th>Gas Fee</th>
 											<th className="text-center">
 												Contract Call?
 											</th>
@@ -103,8 +104,9 @@ const Blocks: React.FC<{}> = () => {
 															: t.amount + 'a'
 													).format('T')}
 												</td>
-												<td>{commaSeperate(t.gas)}</td>
-												<td>{t.gas_price}</td>
+												{/* <td>{commaSeperate(t.gas)}</td>
+												<td>{t.gas_price}</td> */}
+												<td>{t.gas_price / (10 ** 18) * t.gas}</td> 
 												<td className="text-center">
 													{(t.payload.length > 0 && (
 														<img
