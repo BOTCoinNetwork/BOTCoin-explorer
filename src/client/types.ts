@@ -42,7 +42,7 @@ export type Info = {
 
 export type Transaction = {
 	data: string;
-	block_index: number;
+	
 	sender: string;
 	to: string;
 	amount: string;
@@ -51,6 +51,7 @@ export type Transaction = {
 	nonce: number;
 	payload: string;
 	tx_hash: string;
+	block_id: number;
 };
 
 export type InternalTransaction = {

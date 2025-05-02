@@ -103,8 +103,7 @@ class TransactionSerializer(ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ['data', 'sender', 'to', 'amount',
-                  'gas', 'gas_price', 'nonce', 'payload', 'tx_hash']
+        fields = ['data', 'sender', 'to', 'amount', 'gas', 'gas_price', 'nonce', 'payload', 'tx_hash', 'block_id']
 
 
 class InternalTransactionSerializer(ModelSerializer):

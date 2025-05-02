@@ -19,3 +19,5 @@ build*
 nohup.out
 yarn.lock
 package-lock.json
+
+logs

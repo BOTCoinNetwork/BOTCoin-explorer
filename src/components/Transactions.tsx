@@ -67,6 +67,7 @@ const Blocks: React.FC<{}> = () => {
 								<Table>
 									<thead>
 										<tr>
+											<th>Block Index</th>
 											<th>Hash</th>
 											<th>From</th>
 											<th>To</th>
@@ -81,6 +82,7 @@ const Blocks: React.FC<{}> = () => {
 									<tbody>
 										{transactions.map((t) => (
 											<tr key={t.data}>
+												<td>{t.block_id}</td>
 												<td>{t.tx_hash}</td>
 												<td>
 													<Avatar
