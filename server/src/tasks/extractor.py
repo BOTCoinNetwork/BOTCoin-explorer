@@ -103,8 +103,6 @@ class Extractor:
 
                         tx_obj = decode(raw_tx, transactions.Transaction)
                         
-                        #  gas_price (/ 10^18)
-                        gas_price = tx_obj.gasprice / (10 ** 18)  
                         gas_price = min(gas_price, 9223372036854775807)  
                         
                         value = tx_obj.value 
@@ -239,11 +237,10 @@ class Extractor:
 
                     try:
                         min_gas_price = int(info['min_gas_price'])
-                        min_gas_price = min_gas_price / (10 ** 18) 
                         min_gas_price = min(min_gas_price, 9223372036854775807)  # min BIGINT 
                     except (ValueError, TypeError):
                         min_gas_price = 0
-                        logger.warning(f"无效的 min_gas_price 值: {info['min_gas_price']}, 使用默认值 0")
+                        logger.warning(f"err min_gas_price : {info['min_gas_price']}, 使用默认值 0")
 
                     info_model, created = Info.objects.get_or_create(
                         validator=validator,
