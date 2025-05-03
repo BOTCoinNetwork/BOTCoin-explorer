@@ -1,10 +1,10 @@
-""" Monet Explorer Admin """
+""" Botcoin Explorer Admin """
 
 from django.contrib import admin
 
 from . import models
 
-admin.site.site_header = 'Monet Explorer'
+admin.site.site_header = 'Botcoin Explorer'
 
 
 class NetworkAdmin(admin.ModelAdmin):

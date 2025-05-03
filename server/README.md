@@ -1,3 +1,3 @@
-# Monet Explorer Backend
+# Botcoin Explorer Backend
 
-Backend for Monet explorer
+Backend for Botcoin explorer

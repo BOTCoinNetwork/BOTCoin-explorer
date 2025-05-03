@@ -1,4 +1,4 @@
-""" Core models for Monet Explorer """
+""" Core models for Botcoin Explorer """
 import datetime
 
 from django.utils.timezone import now
