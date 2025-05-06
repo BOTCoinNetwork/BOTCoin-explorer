@@ -224,7 +224,7 @@ const Hashgraph: React.FC<{}> = () => {
 							type: '',
 							state: '',
 							consensus_events: 0,
-							consensus_transactions: 0,
+							transactions: 0,
 							last_block_index: 0,
 							last_consensus_round: 0,
 							last_peer_change: 0,

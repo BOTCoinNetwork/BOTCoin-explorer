@@ -154,7 +154,7 @@ class Info(models.Model):
     state = models.CharField(max_length=50)
 
     consensus_events = models.IntegerField()
-    consensus_transactions = models.IntegerField()
+    transactions = models.IntegerField()
     last_block_index = models.IntegerField()
     last_consensus_round = models.IntegerField()
     last_peer_change = models.IntegerField()

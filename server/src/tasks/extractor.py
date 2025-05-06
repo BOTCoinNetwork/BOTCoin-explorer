@@ -247,7 +247,7 @@ class Extractor:
                             "type": info['type'],
                             "state": info['state'],
                             "consensus_events": info['consensus_events'],
-                            "consensus_transactions": info['consensus_transactions'],
+                            "transactions": info['transactions'],
                             "last_block_index": info['last_block_index'],
                             "last_consensus_round": last_cns_round,
                             "last_peer_change": info['last_peer_change'],
@@ -274,7 +274,7 @@ class Extractor:
                         info_model.type = info['type']
                         info_model.state = info['state']
                         info_model.consensus_events = int(info['consensus_events'])
-                        info_model.consensus_transactions = int(info['consensus_transactions'])
+                        info_model.transactions = int(info['transactions'])
                         info_model.last_block_index = int(info['last_block_index'])
                         info_model.last_consensus_round = last_cns_round
                         info_model.last_peer_change = int(info['last_peer_change'])

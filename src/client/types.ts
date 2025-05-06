@@ -27,7 +27,7 @@ export type Info = {
 	type: string;
 	state: string;
 	consensus_events: number;
-	consensus_transactions: number;
+	transactions: number;
 	last_block_index: number;
 	last_consensus_round: number;
 	last_peer_change: number;

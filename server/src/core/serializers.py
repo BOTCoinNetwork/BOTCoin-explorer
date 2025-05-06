@@ -67,7 +67,8 @@ class InfoSerializer(ModelSerializer):
         model = Info
         fields = [
             'e_id', 'type', 'state', 'consensus_events',
-            'consensus_transactions', 'last_block_index',
+            'last_block_index', 'last_block_index',
+            'transactions', 'transactions',
             'last_consensus_round', 'last_peer_change',
             'min_gas_price', 'num_peers', 'undetermined_events',
             'transaction_pool', 'sync_rate', 'events_per_second',

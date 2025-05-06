@@ -3,7 +3,7 @@ import { Monet } from 'evm-lite-core';
 
 export type MonetInfo = IBaseInfo & {
 	consensus_events: string;
-	consensus_transactions: string;
+	transactions: string;
 	events_per_second: string;
 	id: string;
 	last_block_index: string;
