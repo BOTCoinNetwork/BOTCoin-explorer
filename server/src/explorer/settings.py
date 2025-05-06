@@ -148,9 +148,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CRONJOBS = [
-    ('* * * * * *', 'tasks.extractor.run')
+    ('*/1 * * * *', 'tasks.extractor.run')
 ]
-
+#  ('* * * * * *', 'tasks.extractor.run')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
