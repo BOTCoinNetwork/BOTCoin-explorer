@@ -47,7 +47,7 @@ const SBox = styled.div`
 const Transactions: React.FC<{}> = () => {
 	const c = new DownloadsAPI();
 
-	const [os] = useState(['linux', 'mac', 'windows']);
+	const [os] = useState(['Android', 'iOS']);
 	const [applications, setApplications] = useState<Application[]>([]);
 
 	const fetchApps = async () => {
@@ -80,8 +80,7 @@ const Transactions: React.FC<{}> = () => {
 							<Col>
 								<h1>Downloads</h1>
 								<p>
-									Browse latest versions of the MONET
-									Toolchain
+									Browse latest versions of the Botcoin Network
 								</p>
 							</Col>
 						</Row>
@@ -109,8 +108,8 @@ const Transactions: React.FC<{}> = () => {
 												<img
 													src={
 														app.repository_name ===
-														'monet-wallet'
-															? 'https://monet.network/app/images/products/tenom.svg'
+														'Wallet_app'
+															? 'https://explorer.BOTCoin.Network/logo.png'
 															: 'https://image.flaticon.com/icons/svg/919/919847.svg'
 													}
 													width={54}
@@ -142,7 +141,7 @@ const Transactions: React.FC<{}> = () => {
 												<p>
 													{os.map((o, i) => (
 														<Button
-															href={`https://dashboard.monet.network/api/downloads/${app.repository_name}/?os=${o}`}
+															href={o == "Android" ? `https://explorer.BOTCoin.Network/${app.repository_name}/Wallet_Android-release.apk`: `/api/downloads/${app.repository_name}/?os=${o}`}
 															key={`${o}/${i}`}
 															className="mr-1"
 															variant="primary"
