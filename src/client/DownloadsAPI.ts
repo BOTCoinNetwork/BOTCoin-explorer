@@ -12,7 +12,7 @@ class DownloadsAPI extends Client {
 			.results;
 	}
 
-	public async directDownload(app: string, os: 'linux' | 'win' | 'mac') {
+	public async directDownload(app: string, os: 'Android' | 'iOS') {
 		return await this.get(`/api/downloads/${app}/?os=${os}`);
 	}
 }
