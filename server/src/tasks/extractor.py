@@ -221,7 +221,7 @@ class Extractor:
 
             if not history:
                 logger.warning("Could not find latest history")
-                return
+                continue
 
             for validator in Validator.objects.filter(history=history, network=network):
 
@@ -300,6 +300,7 @@ class Extractor:
                     validator.reachable = False
                     validator.save()
                     logger.warning(f'not conneted validator {validator.moniker} - {validator.host}:8080')
+                    continue
 
                 self.__fetch_version(validator)
 
