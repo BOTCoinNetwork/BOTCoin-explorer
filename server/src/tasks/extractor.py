@@ -312,25 +312,33 @@ class Extractor:
         return requests.get(url=path, timeout=timeout).json()
 
     def __fetch_version(self, validator):
-        version_info = self.__get(
-            path=f'http://{validator.host}:8080/version')
+        import logging
+        try:
+            version_info = self.__get(
+                path=f'http://{validator.host}:{validator.port}/version')
 
-        version_model, created = Version.objects.get_or_create(validator=validator, defaults={
-            "monetd": version_info['botcoin'],
-            "evm_lite": version_info['evm-lite'],
-            "babble": version_info['babble'],
-            "solc": version_info['solc'],
-            "solc_os": version_info['solc-os'],
-        })
+            version_model, created = Version.objects.get_or_create(validator=validator, defaults={
+                "monetd": version_info['botcoin'],
+                "evm_lite": version_info['evm-lite'],
+                "babble": version_info['babble'],
+                "solc": version_info['solc'],
+                "solc_os": version_info['solc-os'],
+            })
 
-        if not created:
-            version_model.monetd = version_info['botcoin']
-            version_model.babble = version_info['babble']
-            version_model.evm_lite = version_info['evm-lite']
-            version_model.solc = version_info['solc']
-            version_model.solc_os = version_info['solc-os']
+            if not created:
+                version_model.monetd = version_info['botcoin']
+                version_model.babble = version_info['babble']
+                version_model.evm_lite = version_info['evm-lite']
+                version_model.solc = version_info['solc']
+                version_model.solc_os = version_info['solc-os']
 
-        version_model.save()
+            version_model.save()
+            
+        except Exception as e:
+            logger = logging.getLogger(__name__)
+            logger.warning(f"Failed to fetch version for validator {validator.moniker} ({validator.host}): {str(e)}")
+            validator.reachable = False
+            validator.save()
 
 
 def run():
@@ -352,7 +360,6 @@ def run():
     )
     
     try:
-        logger = logging.getLogger(__name__)
         extractor = Extractor()
         extractor.extract_validator_history()
         extractor.extract_validator_info()
@@ -362,7 +369,8 @@ def run():
 
 def extract_blocks(self):
     """ Pulls all blocks from the node """
-    
+    import logging
+    logger = logging.getLogger(__name__)
     for network in self.__get_networks():
         try:
             logger.info(f"Processing blocks for network: {network.name}")
