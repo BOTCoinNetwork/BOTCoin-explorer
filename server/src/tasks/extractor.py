@@ -75,7 +75,7 @@ class Extractor:
                 print("[-] Fetching blocks ", start, "/", end)
 
                 new_blocks = requests.get(
-                    url=f'http://{network.host}:8080/blocks/{start}?count=50').json()
+                    url=f'http://{network.host}:{network.port}/blocks/{start}?count=50').json()
 
                 for block in new_blocks:
                     m_block, _ = Block.objects.get_or_create(
@@ -227,7 +227,7 @@ class Extractor:
 
                 try:
                     info = self.__get(
-                        path=f'http://{validator.host}:8080/info')
+                        path=f'http://{validator.host}:{network.port}/info')
 
                     last_cns_round = info['last_consensus_round']
                     if info['last_consensus_round'] == "nil":
@@ -299,7 +299,7 @@ class Extractor:
                     logger.error(f'get validator err: {str(err)}', exc_info=True)
                     validator.reachable = False
                     validator.save()
-                    logger.warning(f'not conneted validator {validator.moniker} - {validator.host}:8080')
+                    logger.warning(f'not conneted validator {validator.moniker} - {validator.host}:{network.port}')
                     continue
 
                 self.__fetch_version(validator)
@@ -404,7 +404,7 @@ def extract_blocks(self):
             while start <= end:
                 try:
                     logger.info(f"Fetching blocks {start}//{end}")
-                    block_url = f'http://{network.host}:8080/blocks/{start}?count=50'
+                    block_url = f'http://{network.host}:{network.port}/blocks/{start}?count=50'
                     logger.info(f"Request URL: {block_url}")
                     
                     new_blocks = requests.get(url=block_url).json()
