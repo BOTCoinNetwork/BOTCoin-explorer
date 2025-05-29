@@ -13,6 +13,7 @@ $ npm install
 Once that has finished to run both the backend and the front end
 
 ```bash
+$ export NODE_OPTIONS=--openssl-legacy-provider
 $ npm run dev:react
 ```
 
