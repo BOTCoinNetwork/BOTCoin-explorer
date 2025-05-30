@@ -38,15 +38,16 @@ const SLink = styled(Link)`
 
 const PaginationContainer = styled.div`
     display: flex;
-    margin-top: 20px;
-    padding-right: 4rem;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    padding-right: 3.6rem;
     justify-content: flex-end;
 `;
 
 const PaginationButton = styled.button`
     margin: 0 5px;
     padding: 5px 10px;
-    border: 1px solid rgb(196, 199, 201);
+    border: 0.5px solid rgb(214, 215, 216);
     background: white;
     cursor: pointer;
 
