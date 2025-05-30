@@ -108,7 +108,7 @@ const Blocks: React.FC<{}> = () => {
                                     </thead>
                                     <tbody>
                                         {transactionInfo.results.map((t) => (
-                                            <tr key={t.data} style={{ height: '96px'}}>
+                                            <tr key={t.data} style={{ height: '94px', lineHeight: '60px'}}>
                                                 <td>
                                                     <Avatar
                                                         address={t.sender}
