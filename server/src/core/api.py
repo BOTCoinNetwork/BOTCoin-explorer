@@ -16,7 +16,7 @@ from .models import *
 from .serializers import *
 
 from ethereum import utils
-from rest_framework.pagination import LimitOffsetPagination
+
 
 def checksum_encode(addr):  # Takes a 20-byte binary address as input
     o = ''
@@ -219,7 +219,7 @@ class StatisticsAPIHandler(APIView):
 
         return Response(res)
 
-
+from rest_framework.pagination import LimitOffsetPagination
 class TransactionAPIHandler(generics.ListAPIView):
     """ Statistics API handler """
 
