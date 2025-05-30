@@ -244,7 +244,7 @@ class TransactionAPIHandler(generics.ListAPIView):
         if network is not None:
             queryset = queryset.filter(
                 block__network__name=network.lower()
-            ).order_by('-id')
+            ).order_by('-id')[:200]
         # delay one, sync block index.
         queryset = queryset[offset:offset + limit]
             
