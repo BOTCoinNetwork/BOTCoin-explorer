@@ -245,8 +245,8 @@ class TransactionAPIHandler(generics.ListAPIView):
             queryset = queryset.filter(
                 block__network__name=network.lower()
             ).order_by('-id')
-        
-        queryset = queryset[offset:offset + limit + 20]
+        # delay one, sync block index.
+        queryset = queryset[offset+1:offset + limit]
             
         return queryset
 
