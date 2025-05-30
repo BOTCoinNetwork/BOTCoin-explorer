@@ -17,10 +17,11 @@ import Table from '../components/Table';
 
 import { SContent, SSection } from '../components/styles';
 
-import { fetchNetworkBlocks, fetchTransactions } from '../modules/dashboard';
+import { fetchTransactions } from '../modules/dashboard';
 import {
 	selectBlocks,
-	selectTransactions,
+	// selectTransactions,
+    selectTransactionInfo,
 	selectTxsLoading
 } from '../selectors';
 
@@ -56,54 +57,41 @@ const PaginationButton = styled.button`
     }
 `;
 
-const Blocks: React.FC<{}> = () => {
+const Transactions: React.FC<{}> = () => {
     const dispatch = useDispatch();
 
     const txLoading = useSelector(selectTxsLoading);
-    const blocks = useSelector(selectBlocks);
-    const transactions = useSelector(selectTransactions);
+    const transactionInfo = useSelector(selectTransactionInfo);
+    const [currentOffset, setCurrentOffset] = useState(0); 
 
-    // add pagination
-    const [currentPage] = useState(1);
-    const [itemsPerPage] = useState(10); 
-
-    // add pagination state
-    const [pagination] = useState({
-        next: null,
-        previous: null,
-        count: 0
-    });
-    
-    
+    // const currentTransactions = transactions.slice(indexOfFirstItem, indexOfLastItem);
+    const currentTransactions = transactionInfo.results? transactionInfo.results: [];
     // add pagination logic
     const handlePageChange = (direction: 'next' | 'previous') => {
-        if (pagination[direction]) {
-            const url = new URL(pagination[direction]!);
+        if (transactionInfo[direction]) {
+            const url = new URL(transactionInfo[direction]!);
             const offset = parseInt(url.searchParams.get('offset') || '0');
+            console.log('currentOffset-offset:', offset);
             fetchTxs(offset);
+            setCurrentOffset(offset); 
         }
     };
-    
-    // subset of transactions for current page
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentTransactions = transactions.slice(indexOfFirstItem, indexOfLastItem);
 
-    const fetchTxs = (offset?: number) => dispatch(fetchTransactions(offset));
+    const fetchTxs = (offset: number) => dispatch(fetchTransactions(offset));
 
     useEffect(() => {
-        fetchTxs(0);
+        fetchTxs(currentOffset);
         const interval = setInterval(() => {
-            if (currentPage === 1){
-                fetchTxs(0);
+            if (currentOffset === 0) {
+                fetchTxs(currentOffset);
             }
         }, 5000);
         return () => clearInterval(interval);
-    }, [currentPage]); 
+    }, [currentOffset]); 
 
 	useEffect(() => {
 		ReactTooltip.rebuild();
-	}, [blocks]);
+	}, [currentTransactions]);
 
 	return (
 		<SSection>
@@ -176,14 +164,14 @@ const Blocks: React.FC<{}> = () => {
                 <PaginationContainer>
                     <PaginationButton 
                         onClick={() => handlePageChange('previous')}
-                        disabled={!pagination.previous}
+                        disabled={!transactionInfo.previous}
                     >
                         Previous
                     </PaginationButton>
                     
                     <PaginationButton 
                         onClick={() => handlePageChange('next')}
-                        disabled={!pagination.next}
+                        disabled={!transactionInfo.next}
                     >
                         Next
                     </PaginationButton>
@@ -194,5 +182,5 @@ const Blocks: React.FC<{}> = () => {
     );
 };
 
-export default Blocks;
+export default Transactions;
 

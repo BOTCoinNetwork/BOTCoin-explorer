@@ -22,7 +22,8 @@ import { fetchNetworkBlocks, fetchTransactions } from '../modules/dashboard';
 import {
 	selectBlocks,
 	selectBlocksLoading,
-	selectTransactions,
+	// selectTransactions,
+	selectTransactionInfo,
 	selectTxsLoading
 } from '../selectors';
 import { commaSeperate, currencyFormatBOC } from '../utils';
@@ -39,7 +40,8 @@ const Blocks: React.FC<{}> = () => {
 	const txLoading = useSelector(selectTxsLoading);
 
 	const blocks = useSelector(selectBlocks);
-	const transactions = useSelector(selectTransactions);
+	// const transactions = useSelector(selectTransactions);
+	const transactionInfo = useSelector(selectTransactionInfo);
 
 	const fetchBlocks = () => dispatch(fetchNetworkBlocks());
 	const fetchTxs = () => dispatch(fetchTransactions());
@@ -105,7 +107,7 @@ const Blocks: React.FC<{}> = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {transactions.map((t) => (
+                                        {transactionInfo.results.map((t) => (
                                             <tr key={t.data} style={{ height: '96px'}}>
                                                 <td>
                                                     <Avatar

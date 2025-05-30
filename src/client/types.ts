@@ -54,6 +54,13 @@ export type Transaction = {
 	block_id: number;
 };
 
+export type TransactionInfo = {
+	count: number,
+	next: string,
+	previous: string,
+	results: Transaction[]
+};
+
 export type InternalTransaction = {
 	data: string;
 };

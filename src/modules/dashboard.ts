@@ -5,6 +5,7 @@ import CoreAPI, {
 	Network,
 	NomineeEntry,
 	Transaction,
+	TransactionInfo,
 	Validator,
 	WhitelistEntry
 } from '../client';
@@ -26,8 +27,7 @@ const FETCH_POA_SUCCESS = '@monet/dashboard/POA/FETCH/SUCCESS';
 const FETCH_POA_ERROR = '@monet/dashboard/POA/FETCH/ERROR';
 
 const FETCH_TRANSACTIONS_INIT = '@monet/dashboard/TRANSACTIONS/FETCH/INIT';
-const FETCH_TRANSACTIONS_SUCCESS =
-	'@monet/dashboard/TRANSACTIONS/FETCH/SUCCESS';
+const FETCH_TRANSACTIONS_SUCCESS =	'@monet/dashboard/TRANSACTIONS/FETCH/SUCCESS';
 const FETCH_TRANSACTIONS_ERROR = '@monet/dashboard/TRANSACTIONS/FETCH/ERROR';
 
 const SELECT_NETWORK = '@monet/dashboard/network/SELECT';
@@ -39,7 +39,8 @@ export type DashboardState = {
 
 	validators: Validator[];
 	blocks: Block[];
-	transactions: Transaction[];
+	// transactions: Transaction[];
+	transactionInfo: TransactionInfo;
 
 	whitelist: WhitelistEntry[];
 	nominees: NomineeEntry[];
@@ -47,7 +48,8 @@ export type DashboardState = {
 	error?: string;
 
 	loading: {
-		transactions: boolean;
+		// transactions: boolean;
+		transactionInfo: boolean;
 		networks: boolean;
 		validators: boolean;
 		infos: boolean;
@@ -60,13 +62,19 @@ const initial: DashboardState = {
 	networks: [],
 	validators: [],
 	blocks: [],
-	transactions: [],
-
+	// transactions: [],
+	transactionInfo: {
+		count: 0,
+		next: '',
+		previous: '',
+		results: [] 
+	},
 	whitelist: [],
 	nominees: [],
 
 	loading: {
-		transactions: false,
+		// transactions: false,
+		transactionInfo: false,
 		networks: false,
 		validators: false,
 		infos: false,
@@ -221,18 +229,18 @@ export default (
 				error: undefined,
 				loading: {
 					...state.loading,
-					transactions: true
+					transactionInfo: true
 				}
 			};
 
 		case FETCH_TRANSACTIONS_SUCCESS:
 			return {
 				...state,
-				transactions: action.payload,
+				transactionInfo: action.payload,
 				error: undefined,
 				loading: {
 					...state.loading,
-					transactions: false
+					transactionInfo: false
 				}
 			};
 
@@ -243,7 +251,7 @@ export default (
 				whitelist: [],
 				loading: {
 					...state.loading,
-					transactions: false
+					transactionInfo: false
 				}
 			};
 
@@ -403,19 +411,14 @@ export function fetchTransactions(offset?: number): Result<Promise<void>> {
 		});
 
 		try {
-			const transactions = await c.fetchTxs(
+			const transactionInfo = await c.fetchTxs(
 				network!.name.toLowerCase(),
 				offset
 			);
 
             dispatch({
                 type: FETCH_TRANSACTIONS_SUCCESS,
-                payload: {
-                    next,
-                    previous,
-                    count:,
-                    results:,
-                }
+                payload: transactionInfo
             });
         } catch (e) {
             dispatch({
