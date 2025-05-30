@@ -16,7 +16,7 @@ from .models import *
 from .serializers import *
 
 from ethereum import utils
-
+from rest_framework.pagination import LimitOffsetPagination
 
 def checksum_encode(addr):  # Takes a 20-byte binary address as input
     o = ''
@@ -225,6 +225,7 @@ class TransactionAPIHandler(generics.ListAPIView):
 
     model = Transaction
     serializer_class = TransactionSerializer
+    pagination_class = LimitOffsetPagination 
 
     @method_decorator(cache_page(60))  
     def get(self, request, *args, **kwargs):
@@ -236,16 +237,13 @@ class TransactionAPIHandler(generics.ListAPIView):
         logger = logging.getLogger(__name__)
         
         network = self.request.query_params.get('network', None)
-        limit = int(self.request.query_params.get('limit', 20))
-        offset = int(self.request.query_params.get('offset', 0))
         
         queryset = Transaction.objects.select_related('block__network')
         
         if network is not None:
             queryset = queryset.filter(
                 block__network__name=network.lower()
-            ).order_by('-id')[offset:limit]
-        # delay one, sync block index.
+            ).order_by('-id')
             
         return queryset
 
