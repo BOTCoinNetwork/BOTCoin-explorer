@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
-
 import utils, { Currency } from 'evm-lite-utils';
 import styled from 'styled-components';
-
 import { IBaseAccount } from 'evm-lite-client';
 import { useSelector } from 'react-redux';
-
 import Media from 'react-bootstrap/Media';
-
+import Table from 'react-bootstrap/Table';
 import Avatar from '../../components/Avatar';
-
 import CoreAPI from '../../client';
-
 import { selectNetwork } from '../../selectors';
 import { currencyFormatBOC } from '../../utils';
-
 import Grid, { Quadrant as Q, Section } from '../../ui';
+import contract from '../../assets/contract.svg';
 
 const SAccounts = styled.div``;
+const SInfoCard = styled.div`
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+`;
 
 type Props = {
 	address: string;
@@ -60,37 +62,62 @@ const AddressSearch: React.FC<Props> = props => {
 		}
 	}, [network]);
 
+	const renderAccountDetails = () => {
+		if (!account.address) return null;
+
+		return (
+			<SInfoCard>
+				<h4>Account</h4>
+				<Table striped bordered hover>
+					<tbody>
+						<tr>
+							<td><strong>account</strong></td>
+							<td className="mono">{account.address}</td>
+						</tr>
+						<tr>
+							<td><strong>balance</strong></td>
+							<td>{currencyFormatBOC(new Currency(account.balance || 0))}</td>
+						</tr>
+						<tr>
+							<td><strong>nonce</strong></td>
+							<td>{account.nonce || '0'}</td>
+						</tr>
+						{/* <tr>
+							<td><strong>transactionCount</strong></td>
+							<td>{account.transactionCount || '0'}</td>
+						</tr> */}
+						<tr>
+							<td><strong>is contract</strong></td>
+							<td>{account.bytecode ? <img src={contract} width={20} /> : '-'} </td>
+						</tr>
+					</tbody>
+				</Table>
+			</SInfoCard>
+		);
+	};
+
 	return (
 		<>
 			<SAccounts>
-				<Section padding={30}>
+				<Section padding={20}>
 					<Grid>
 						<Q pos={[1, 1]}>
-							<h3>Accounts</h3>
+							<h3>Account details</h3>
 							<br />
-							{(!error && Object.keys(account).length > 0 && (
+							{(!error && Object.keys(account).length > 0) ? (
 								<div className="padding">
 									<Media>
-										<Avatar
-											address={account.address.toLowerCase()}
-										/>
+										<Avatar address={account.address ? account.address : ''} />
 										<Media.Body>
-											<b className="mono">
-												{account.address.toLowerCase()}
-											</b>
+											<b className="mono">{account.address ? account.address : ''}</b>
 											<div className="mono">
-												{currencyFormatBOC(
-													new Currency(
-														account.balance
-													)
-												)} 
+												{currencyFormatBOC(new Currency(account.balance || 0))}
 											</div>
 										</Media.Body>
 									</Media>
+									{renderAccountDetails()}
 								</div>
-							)) ||
-								error ||
-								''}
+							) : error || ''}
 						</Q>
 					</Grid>
 				</Section>
