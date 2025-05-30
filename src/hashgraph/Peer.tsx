@@ -16,9 +16,9 @@ const Node: React.FC<Props> = ({ node }) => {
 	const address = pubKeyToAddress(node.publicKey);
 	const img = new window.Image(40, 40);
 
-	img.src = `https://s.gravatar.com/avatar/${utils.trimHex(
+	img.src = `https://seccdn.libravatar.org/avatar/${utils.trimHex(
 		address
-	)}?size=100&default=retro`;
+	)}?s=100&d=retro`;
 
 	return (
 		<>

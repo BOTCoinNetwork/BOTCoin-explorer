@@ -53,10 +53,13 @@ const Avatar: React.FC<Props> = props => {
                 </StyledTooltip>
             }
         >
-            <SAvatar
-                src={`https://s.gravatar.com/avatar/${utils.trimHex(
+            {/* src={`https://gravatar.com/avatar/${utils.trimHex(
                     props.address
-                )}?size=100&default=retro`}
+                )}?size=100&default=retro`} */}
+            <SAvatar
+                src={`https://seccdn.libravatar.org/avatar/${utils.trimHex(
+                    props.address
+                )}?s=100&d=retro`}
                 width={props.size || 50}
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}

@@ -41,11 +41,11 @@ const Validator: React.FC<RouteComponentProps<ReactRouterProps>> = props => {
 											width={60}
 											height={60}
 											className="mr-3"
-											src={`https://s.gravatar.com/avatar/${Utils.trimHex(
+											src={`https://seccdn.libravatar.org/avatar/${Utils.trimHex(
 												pubKeyToAddress(
 													validator.public_key
 												)
-											)}?size=100&default=retro`}
+											)}?s=100&d=retro`}
 											alt="Generic placeholder"
 										/>
 										<Media.Body>

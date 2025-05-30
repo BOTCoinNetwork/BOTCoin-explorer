@@ -65,7 +65,8 @@ const Blocks: React.FC<{}> = () => {
 							<div
 								style={{
 									background: 'white',
-									padding: '10px'
+									padding: '10px',
+									marginTop: "50px"
 								}}
 							>
 								{blocks.map((b) => (
@@ -105,7 +106,7 @@ const Blocks: React.FC<{}> = () => {
                                     </thead>
                                     <tbody>
                                         {transactions.map((t) => (
-                                            <tr key={t.data}>
+                                            <tr key={t.data} style={{ height: '96px'}}>
                                                 <td>
                                                     <Avatar
                                                         address={t.sender}
