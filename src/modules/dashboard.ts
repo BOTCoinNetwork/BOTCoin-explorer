@@ -393,7 +393,7 @@ export function fetchPOA(): Result<Promise<void>> {
 	};
 }
 
-export function fetchTransactions(): Result<Promise<void>> {
+export function fetchTransactions(offset?: number): Result<Promise<void>> {
 	return async (dispatch, getState) => {
 		const state = getState();
 		const network = state.selectedNetwork;
@@ -403,17 +403,25 @@ export function fetchTransactions(): Result<Promise<void>> {
 		});
 
 		try {
-			const transactions = await c.fetchTxs(network!.name.toLowerCase());
+			const transactions = await c.fetchTxs(
+				network!.name.toLowerCase(),
+				offset
+			);
 
-			dispatch({
-				type: FETCH_TRANSACTIONS_SUCCESS,
-				payload: transactions
-			});
-		} catch (e) {
-			dispatch({
-				type: FETCH_TRANSACTIONS_ERROR,
-				payload: e.toString()
-			});
-		}
-	};
+            dispatch({
+                type: FETCH_TRANSACTIONS_SUCCESS,
+                payload: {
+                    next,
+                    previous,
+                    count:,
+                    results:,
+                }
+            });
+        } catch (e) {
+            dispatch({
+                type: FETCH_TRANSACTIONS_ERROR,
+                payload: e.toString()
+            });
+        }
+    };
 }

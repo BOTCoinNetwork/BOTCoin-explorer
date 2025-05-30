@@ -106,10 +106,15 @@ class CoreAPI extends Client {
 		return JSON.parse(await this.get(url)).results;
 	}
 
-	public async fetchTxs(network: string): Promise<types.Transaction[]> {
-		return JSON.parse(
-			await this.get(`/api/transactions/?network=${network}`)
-		).results;
+	public async fetchTxs(network: string, offset?: number): Promise<types.Transaction[]> {
+
+		let url = `/api/transactions/?network=${network}`;
+		
+		if (offset) {
+			url += `&limit=10&offset=${offset}`;
+		}
+
+		return JSON.parse(await this.get(url)).results;
 	}
 
 	public async fetchStats(network: string): Promise<types.Stats> {

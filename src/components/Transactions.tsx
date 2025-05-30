@@ -26,7 +26,6 @@ import {
 
 import contract from '../assets/contract.svg';
 
-import { Overlay, Tooltip } from 'react-bootstrap';
 import { currencyFormatBOC } from '../utils';
 
 import HashTooltip from '../containers/HashTooltip';
@@ -36,6 +35,27 @@ const SLink = styled(Link)`
 	text-decoration: none !important;
 `;
 
+const PaginationContainer = styled.div`
+    display: flex;
+    margin-top: 20px;
+    padding-right: 4rem;
+    justify-content: flex-end;
+`;
+
+const PaginationButton = styled.button`
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid rgb(196, 199, 201);
+    background: white;
+    cursor: pointer;
+
+    &.active {
+        background: #6d11437d;
+        color: white;
+        border-color:rgb(196, 199, 201);
+    }
+`;
+
 const Blocks: React.FC<{}> = () => {
     const dispatch = useDispatch();
 
@@ -43,20 +63,43 @@ const Blocks: React.FC<{}> = () => {
     const blocks = useSelector(selectBlocks);
     const transactions = useSelector(selectTransactions);
 
-    const fetchBlocks = () => dispatch(fetchNetworkBlocks());
-    const fetchTxs = () => dispatch(fetchTransactions());
+    // add pagination
+    const [currentPage] = useState(1);
+    const [itemsPerPage] = useState(10); 
+
+    // add pagination state
+    const [pagination] = useState({
+        next: null,
+        previous: null,
+        count: 0
+    });
+    
+    
+    // add pagination logic
+    const handlePageChange = (direction: 'next' | 'previous') => {
+        if (pagination[direction]) {
+            const url = new URL(pagination[direction]!);
+            const offset = parseInt(url.searchParams.get('offset') || '0');
+            fetchTxs(offset);
+        }
+    };
+    
+    // subset of transactions for current page
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentTransactions = transactions.slice(indexOfFirstItem, indexOfLastItem);
+
+    const fetchTxs = (offset?: number) => dispatch(fetchTransactions(offset));
 
     useEffect(() => {
-        fetchBlocks();
-        fetchTxs();
-
+        fetchTxs(0);
         const interval = setInterval(() => {
-            fetchBlocks();
-            fetchTxs();
+            if (currentPage === 1){
+                fetchTxs(0);
+            }
         }, 5000);
-
         return () => clearInterval(interval);
-    }, []);
+    }, [currentPage]); 
 
 	useEffect(() => {
 		ReactTooltip.rebuild();
@@ -88,7 +131,7 @@ const Blocks: React.FC<{}> = () => {
 										</tr>
 									</thead>
 									<tbody>
-                                        {transactions.map((t) => (
+                                        {currentTransactions.map((t) => ( 
                                             <tr key={t.data}>
                                                 <td>{t.block_id}</td>
                                                 <td>
@@ -129,9 +172,27 @@ const Blocks: React.FC<{}> = () => {
                         </SContent>
                     </Col>
                 </Row>
+                
+                <PaginationContainer>
+                    <PaginationButton 
+                        onClick={() => handlePageChange('previous')}
+                        disabled={!pagination.previous}
+                    >
+                        Previous
+                    </PaginationButton>
+                    
+                    <PaginationButton 
+                        onClick={() => handlePageChange('next')}
+                        disabled={!pagination.next}
+                    >
+                        Next
+                    </PaginationButton>
+                </PaginationContainer>
+                
             </Container>
         </SSection>
     );
 };
 
 export default Blocks;
+
