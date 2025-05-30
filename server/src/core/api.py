@@ -236,18 +236,18 @@ class TransactionAPIHandler(generics.ListAPIView):
         logger = logging.getLogger(__name__)
         
         network = self.request.query_params.get('network', None)
+        limit = int(self.request.query_params.get('limit', 20))
+        offset = int(self.request.query_params.get('offset', 0))
         
         queryset = Transaction.objects.select_related('block__network')
         
         if network is not None:
             queryset = queryset.filter(
                 block__network__name=network.lower()
-            ).order_by('-id')[:50]
-            
-            # 添加日志跟踪
-            for tx in queryset:
-                logger.info(f"Transaction data - tx_hash: {tx.tx_hash}, block_id: {tx.block_id}, block: {tx.block}")
+            ).order_by('-id')
         
+        queryset = queryset[offset:offset + limit]
+            
         return queryset
 
 
