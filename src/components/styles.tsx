@@ -85,5 +85,5 @@ export const SJumbotron = styled.div`
 `;
 
 export const SSection = styled.div`
-	margin-top: 50px;
+	margin-top: 40px;
 `;

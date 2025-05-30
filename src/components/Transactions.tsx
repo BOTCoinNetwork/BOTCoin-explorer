@@ -39,18 +39,24 @@ const SLink = styled(Link)`
 const Blocks: React.FC<{}> = () => {
     const dispatch = useDispatch();
 
-	const txLoading = useSelector(selectTxsLoading);
+    const txLoading = useSelector(selectTxsLoading);
+    const blocks = useSelector(selectBlocks);
+    const transactions = useSelector(selectTransactions);
 
-	const blocks = useSelector(selectBlocks);
-	const transactions = useSelector(selectTransactions);
+    const fetchBlocks = () => dispatch(fetchNetworkBlocks());
+    const fetchTxs = () => dispatch(fetchTransactions());
 
-	const fetchBlocks = () => dispatch(fetchNetworkBlocks());
-	const fetchTxs = () => dispatch(fetchTransactions());
+    useEffect(() => {
+        fetchBlocks();
+        fetchTxs();
 
-	useEffect(() => {
-		fetchBlocks();
-		fetchTxs();
-	}, []);
+        const interval = setInterval(() => {
+            fetchBlocks();
+            fetchTxs();
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, []);
 
 	useEffect(() => {
 		ReactTooltip.rebuild();
@@ -62,7 +68,7 @@ const Blocks: React.FC<{}> = () => {
 				<Row>
 					<Col md={12} lg={12}>
 						<SContent>
-							<h3>
+							<h3 style={{ height: '36px', lineHeight: '36px'}}>
 								Recent Transactions{' '}
 								<Loader loading={txLoading} />
 							</h3>

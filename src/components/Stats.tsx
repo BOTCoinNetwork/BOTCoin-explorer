@@ -23,6 +23,8 @@ const SContentPadded = styled.div`
 const SStats = styled.div`
 	h1 {
 		font-size: 35px;
+		height: 36px; 
+		line-height: 36px;
 	}
 	background: var(--light-grey);
 `;
@@ -53,11 +55,10 @@ const Stats: React.FC<{}> = props => {
 
 	let interval: any;
 	useEffect(() => {
-		if (!DEV) {
-			interval = setInterval(() => {
-				setStats();
-			}, 5000);
-		}
+		
+		interval = setInterval(() => {
+			setStats();
+		}, 5000);
 
 		return () => {
 			clearInterval(interval);
