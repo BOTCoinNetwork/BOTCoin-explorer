@@ -40,6 +40,7 @@ const Avatar: React.FC<Props> = props => {
             placement="auto"
             trigger={['hover']}
             defaultShow={false}
+            delay={{ show: 0, hide: 3000 }} 
             overlay={
                 <StyledTooltip 
                     id={`avatar-tooltip-${props.address}`}
