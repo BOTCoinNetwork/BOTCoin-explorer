@@ -119,17 +119,17 @@ class Extractor:
                         
                         try:
                             _, _ = Transaction.objects.get_or_create(
-                                tx_hash=tx['tx_hash'],
+                                block=m_block,
+                                data=tx_string,
                                 defaults={
-                                    "block": m_block,
-                                    "data": tx_string,
                                     "sender": tx['sender'],
                                     "to": tx['to'],
                                     "amount": tx['value'],
                                     "gas": tx['gas'],
                                     "gas_price": tx['gas_price'],
                                     "nonce": tx['nonce'],
-                                    "payload": tx['data']
+                                    "payload": tx['data'],
+                                    "tx_hash": tx['tx_hash']
                                 }
                             )
                         except Exception as e:
