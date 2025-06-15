@@ -224,83 +224,89 @@ class Extractor:
                 continue
 
             for validator in Validator.objects.filter(history=history, network=network):
-
-                try:
-                    info = self.__get(
-                        path=f'http://{validator.host}:{network.port}/info')
-
-                    last_cns_round = info['last_consensus_round']
-                    if info['last_consensus_round'] == "nil":
-                        last_cns_round = 0
-
+                max_retries = 3
+                retries = 0
+                while retries < max_retries:
                     try:
-                        min_gas_price = int(info['min_gas_price'])
-                        # min_gas_price = min(min_gas_price, 9223372036854775807)  # min BIGINT 
-                    except (ValueError, TypeError):
-                        min_gas_price = 0
-                        logger.warning(f"err min_gas_price : {info['min_gas_price']}, 使用默认值 0")
+                        info = self.__get(
+                            path=f'http://{validator.host}:{network.port}/info')
 
-                    info_model, created = Info.objects.get_or_create(
-                        validator=validator,
-                        defaults={
-                            "e_id": info['id'],
-                            "type": info['type'],
-                            "state": info['state'],
-                            "consensus_events": info['consensus_events'],
-                            "transactions": info['transactions'],
-                            "last_block_index": info['last_block_index'],
-                            "last_consensus_round": last_cns_round,
-                            "last_peer_change": info['last_peer_change'],
-                            "min_gas_price": min_gas_price,
-                            "num_peers": info['num_peers'],
-                            "undetermined_events": info['undetermined_events'],
-                            "sync_rate": info['sync_rate'],
-                            "transaction_pool": info['transaction_pool'],
-                            "rounds_per_second": info['rounds_per_second'],
-                            "events_per_second": info['events_per_second'],
-                        })
-
-                    if not created:
-                        old_values = {
-                            'e_id': info_model.e_id,
-                            'type': info_model.type,
-                            'state': info_model.state,
-                            'consensus_events': info_model.consensus_events,
-                            'last_block_index': info_model.last_block_index,
-                            # ... other
-                        }
-                        
-                        info_model.e_id = info['id']
-                        info_model.type = info['type']
-                        info_model.state = info['state']
-                        info_model.consensus_events = int(info['consensus_events'])
-                        info_model.transactions = int(info['transactions'])
-                        info_model.last_block_index = int(info['last_block_index'])
-                        info_model.last_consensus_round = last_cns_round
-                        info_model.last_peer_change = int(info['last_peer_change'])
-                        info_model.min_gas_price = min_gas_price
-                        info_model.num_peers = int(info['num_peers'])
-                        info_model.undetermined_events = int(info['undetermined_events'])
-                        info_model.sync_rate = info['sync_rate']
-                        info_model.transaction_pool = int(info['transaction_pool'])
-                        info_model.rounds_per_second = info['rounds_per_second']
-                        info_model.events_per_second = info['events_per_second']
+                        last_cns_round = info['last_consensus_round']
+                        if info['last_consensus_round'] == "nil":
+                            last_cns_round = 0
 
                         try:
-                            info_model.save()
+                            min_gas_price = int(info['min_gas_price'])
+                            # min_gas_price = min(min_gas_price, 9223372036854775807)  # min BIGINT 
+                        except (ValueError, TypeError):
+                            min_gas_price = 0
+                            logger.warning(f"err min_gas_price : {info['min_gas_price']}, 使用默认值 0")
+
+                        info_model, created = Info.objects.get_or_create(
+                            validator=validator,
+                            defaults={
+                                "e_id": info['id'],
+                                "type": info['type'],
+                                "state": info['state'],
+                                "consensus_events": info['consensus_events'],
+                                "transactions": info['transactions'],
+                                "last_block_index": info['last_block_index'],
+                                "last_consensus_round": last_cns_round,
+                                "last_peer_change": info['last_peer_change'],
+                                "min_gas_price": min_gas_price,
+                                "num_peers": info['num_peers'],
+                                "undetermined_events": info['undetermined_events'],
+                                "sync_rate": info['sync_rate'],
+                                "transaction_pool": info['transaction_pool'],
+                                "rounds_per_second": info['rounds_per_second'],
+                                "events_per_second": info['events_per_second'],
+                            })
+
+                        if not created:
+                            old_values = {
+                                'e_id': info_model.e_id,
+                                'type': info_model.type,
+                                'state': info_model.state,
+                                'consensus_events': info_model.consensus_events,
+                                'last_block_index': info_model.last_block_index,
+                                # ... other
+                            }
                             
-                        except Exception as save_err:
-                            logger.error(f'Info save err: {str(save_err)}', exc_info=True)
+                            info_model.e_id = info['id']
+                            info_model.type = info['type']
+                            info_model.state = info['state']
+                            info_model.consensus_events = int(info['consensus_events'])
+                            info_model.transactions = int(info['transactions'])
+                            info_model.last_block_index = int(info['last_block_index'])
+                            info_model.last_consensus_round = last_cns_round
+                            info_model.last_peer_change = int(info['last_peer_change'])
+                            info_model.min_gas_price = min_gas_price
+                            info_model.num_peers = int(info['num_peers'])
+                            info_model.undetermined_events = int(info['undetermined_events'])
+                            info_model.sync_rate = info['sync_rate']
+                            info_model.transaction_pool = int(info['transaction_pool'])
+                            info_model.rounds_per_second = info['rounds_per_second']
+                            info_model.events_per_second = info['events_per_second']
 
-                    validator.reachable = True
-                    validator.save()
+                            try:
+                                info_model.save()
+                                
+                            except Exception as save_err:
+                                logger.error(f'Info save err: {str(save_err)}', exc_info=True)
 
-                except Exception as err:
-                    logger.error(f'get validator err: {str(err)}', exc_info=True)
-                    validator.reachable = False
-                    validator.save()
-                    logger.warning(f'not conneted validator {validator.moniker} - {validator.host}:{network.port}')
-                    continue
+                        validator.reachable = True
+                        validator.save()
+                        break  # 成功获取信息，跳出重试循环
+                    except Exception as err:
+                        retries += 1
+                        if retries < max_retries:
+                            logger.warning(f'get validator err: {str(err)}, 第 {retries} 次重试...', exc_info=True)
+                            time.sleep(2 ** retries)  # 指数退避
+                        else:
+                            logger.error(f'get validator err: {str(err)}, 达到最大重试次数', exc_info=True)
+                            validator.reachable = False
+                            validator.save()
+                            logger.warning(f'not conneted validator {validator.moniker} - {validator.host}:{network.port}')
 
                 self.__fetch_version(validator)
 
